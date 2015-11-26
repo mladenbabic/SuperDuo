@@ -4,71 +4,56 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.util.Log;
 import android.widget.Toast;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.api.Callback;
-import it.jaschke.alexandria.fragment.BookDetailFragment;
 import it.jaschke.alexandria.fragment.BookListFragment;
 
 
 public class MainActivity extends BaseDetailActivity implements  Callback {
 
+    private static final String TAG = "MainActivity";
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+
     private CharSequence title;
     public static boolean IS_TABLET = false;
     private BroadcastReceiver messageReceiever;
-
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate() called with: " + "savedInstanceState = [" + savedInstanceState + "]");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        setToolbar(true, true);
+        setToolbar(false, true);
 
         messageReceiever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiever, filter);
 
         title = getTitle();
+        getSupportActionBar().setTitle(title);
 
-        //TODO Mladen check the selected first fragment and add two pane
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, BookListFragment.getInstance())
-                .addToBackStack((String) title)
-                .commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
+        if(savedInstanceState == null){
+            //TODO Mladen check the selected first fragment and add two pane
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, BookListFragment.getInstance())
+                    .addToBackStack(null)
+                    .commit();
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -78,20 +63,23 @@ public class MainActivity extends BaseDetailActivity implements  Callback {
 
     @Override
     public void onItemSelected(String ean) {
-        Bundle args = new Bundle();
-        args.putString(BookDetailFragment.EAN_KEY, ean);
 
-        BookDetailFragment fragment = new BookDetailFragment();
-        fragment.setArguments(args);
+        //TODO Mladen call AddBookActivity for book detail with transition animation
 
-        int id = R.id.container;
-        if (findViewById(R.id.right_container) != null) {
-            id = R.id.right_container;
-        }
-        getSupportFragmentManager().beginTransaction()
-                .replace(id, fragment)
-                .addToBackStack("Book Detail")
-                .commit();
+//        Bundle args = new Bundle();
+//        args.putString(BookDetailFragment.EAN_KEY, ean);
+//
+//        BookDetailFragment fragment = new BookDetailFragment();
+//        fragment.setArguments(args);
+//
+//        int id = R.id.container;
+//        if (findViewById(R.id.right_container) != null) {
+//            id = R.id.right_container;
+//        }
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(id, fragment)
+//                .addToBackStack("Book Detail")
+//                .commit();
 
     }
 
@@ -103,24 +91,5 @@ public class MainActivity extends BaseDetailActivity implements  Callback {
             }
         }
     }
-
-    public void goBack(View view) {
-        getSupportFragmentManager().popBackStack();
-    }
-
-    private boolean isTablet() {
-        return (getApplicationContext().getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
-            finish();
-        }
-        super.onBackPressed();
-    }
-
 
 }
