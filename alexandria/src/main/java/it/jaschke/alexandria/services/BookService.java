@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -20,8 +21,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import it.jaschke.alexandria.activity.MainActivity;
-import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.data.AlexandriaContract;
+import it.jaschke.alexandria.util.DeviceUtil;
+import it.jaschke.alexandria.util.ServiceResponse;
 
 
 /**
@@ -35,8 +37,11 @@ public class BookService extends IntentService {
 
     public static final String FETCH_BOOK = "it.jaschke.alexandria.services.action.FETCH_BOOK";
     public static final String DELETE_BOOK = "it.jaschke.alexandria.services.action.DELETE_BOOK";
-
     public static final String EAN = "it.jaschke.alexandria.services.extra.EAN";
+
+    public static final int FOUND_OK = 0;
+    public static final int NO_CONNECTION = 1;
+    public static final int NO_BOOK = 2;
 
     public BookService() {
         super("Alexandria");
@@ -72,7 +77,7 @@ public class BookService extends IntentService {
      */
     private void fetchBook(String ean) {
 
-        if (ean.length() != 13) {
+        if (TextUtils.isEmpty(ean) || ean.length() != 13) {
             return;
         }
 
@@ -90,6 +95,11 @@ public class BookService extends IntentService {
         }
 
         bookEntry.close();
+
+        if(!DeviceUtil.isOnline(this)){
+            sendEvent(NO_CONNECTION);
+            return;
+        }
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -162,9 +172,7 @@ public class BookService extends IntentService {
             if (bookJson.has(ITEMS)) {
                 bookArray = bookJson.getJSONArray(ITEMS);
             } else {
-                Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-                messageIntent.putExtra(MainActivity.MESSAGE_KEY, getResources().getString(R.string.not_found));
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+                sendEvent(NO_BOOK);
                 return;
             }
 
@@ -199,6 +207,13 @@ public class BookService extends IntentService {
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
         }
+    }
+
+
+    private void sendEvent(@ServiceResponse int responseCode) {
+        Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+        messageIntent.putExtra(MainActivity.MESSAGE_KEY, responseCode);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
     }
 
     private void writeBackBook(String ean, String title, String subtitle, String desc, String imgUrl) {

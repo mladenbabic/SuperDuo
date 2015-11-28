@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import it.jaschke.alexandria.activity.MainActivity;
 import it.jaschke.alexandria.R;
+import it.jaschke.alexandria.activity.MainActivity;
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
 import it.jaschke.alexandria.services.DownloadImage;
@@ -34,7 +34,10 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
     private String bookTitle;
     private ShareActionProvider shareActionProvider;
 
-    public BookDetailFragment() {
+    public static Fragment getInstance(Bundle bundle) {
+        Fragment fragment = new BookDetailFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -140,4 +143,6 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }
+
+
 }

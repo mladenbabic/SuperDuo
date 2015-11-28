@@ -12,7 +12,7 @@ import it.jaschke.alexandria.R;
  * It is base class activity which contains common methods for all extended activities
  * Created by Mladen Babic <email>info@mladenbabic.com</email>  on 11/4/2015.
  */
-public class BaseDetailActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
     @Nullable
     @Bind(R.id.toolbar)

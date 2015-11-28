@@ -26,12 +26,12 @@ android {
     }
     buildTypes {
         release {
-            testCoverageEnabled = true
+            //testCoverageEnabled = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
-            testCoverageEnabled = true
-        }
+//        debug {
+//            testCoverageEnabled = true
+//        }
 
     }
     lintOptions {
