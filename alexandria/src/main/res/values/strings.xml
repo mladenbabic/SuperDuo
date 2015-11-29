@@ -31,5 +31,6 @@
     <string name="no_books_found">No books found</string>
     <string name="key_search_text" translatable="false">key_search_text</string>
     <string name="add_book">Add/Scan Book</string>
+    <string name="book_found">Book found</string>
     <string name="no_internet_connection">No internet connection</string>
 </resources>

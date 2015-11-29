@@ -16,4 +16,21 @@
         <item name="popupTheme">@style/Theme.AppCompat.Light</item>
     </style>
 
+    <style name="bookTitle">
+        <item name="popupTheme">@style/Theme.AppCompat.Light</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:textSize">@dimen/head_line</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="bookSubTitle">
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
 </resources>

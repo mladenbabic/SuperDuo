@@ -16,4 +16,5 @@
     <dimen name="info_text_size">32sp</dimen>
     <dimen name="book_tumbnail_width">70dp</dimen>
     <dimen name="book_tumbnail_height">70dp</dimen>
+    <dimen name="book_card_preview_height">200dp</dimen>
 </resources>

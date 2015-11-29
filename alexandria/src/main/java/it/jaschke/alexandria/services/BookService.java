@@ -91,6 +91,7 @@ public class BookService extends IntentService {
 
         if (bookEntry.getCount() > 0) {
             bookEntry.close();
+            sendEvent(FOUND_OK);
             return;
         }
 
@@ -204,6 +205,7 @@ public class BookService extends IntentService {
                 writeBackCategories(ean, bookInfo.getJSONArray(CATEGORIES));
             }
 
+            sendEvent(FOUND_OK);
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
         }

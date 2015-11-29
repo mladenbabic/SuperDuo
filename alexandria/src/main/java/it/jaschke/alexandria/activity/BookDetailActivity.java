@@ -37,5 +37,4 @@ public class BookDetailActivity extends BaseActivity {
         super.onDestroy();
     }
 
-
 }
