@@ -16,9 +16,7 @@ import it.jaschke.alexandria.fragment.BookListFragment;
 public class MainActivity extends BaseActivity implements  Callback {
 
     private static final String TAG = "MainActivity";
-
     private boolean mTwoPane = true;
-
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
 
@@ -37,11 +35,7 @@ public class MainActivity extends BaseActivity implements  Callback {
                     .replace(R.id.container, BookListFragment.getInstance())
                     .commit();
         }
-        if (findViewById(R.id.containerDetail) != null) {
-            mTwoPane = true;
-        } else {
-            mTwoPane = false;
-        }
+        mTwoPane = findViewById(R.id.containerDetail) != null;
     }
 
     @OnClick(R.id.fab)

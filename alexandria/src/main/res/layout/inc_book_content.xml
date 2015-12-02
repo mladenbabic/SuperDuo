@@ -23,11 +23,10 @@
                 android:layout_gravity="top"
                 android:layout_margin="4dp"
                 android:contentDescription="@string/book_cover"
-                android:src="@drawable/ic_launcher"
-                android:transitionName="@string/detail_icon_transition_name"/>/>
+                android:src="@drawable/ic_launcher"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingLeft="8dp"
@@ -37,35 +36,36 @@
                     android:id="@+id/fullBookTitle"
                     style="@style/bookTitle"
                     android:maxLines="2"
-                    tools:text="Android UI Fundamental" />
+                    tools:text="Professional Android 4 Application Development" />
 
                 <TextView
                     android:id="@+id/fullBookSubTitle"
                     style="@style/bookSubTitle"
-                    android:lines="2" />
+                    android:lines="2"
+                    android:layout_width="match_parent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/fullBookDesc"
+                    android:gravity="left|center"
+                    android:paddingLeft="4dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:padding="10dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/categories"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|top" />
+                        tools:text="Computers"
+                        android:gravity="left|bottom" />
 
                     <TextView
                         android:id="@+id/authors"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right|top"
+                        android:gravity="left|bottom"
+                        tools:text="Reto Meier"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>

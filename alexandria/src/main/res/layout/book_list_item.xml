@@ -23,12 +23,9 @@
 
             <ImageView
                 android:id="@+id/fullBookCover"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
+                style="@style/bookCoverSmall"
                 android:contentDescription="@string/book_cover"
-                android:src="@drawable/ic_launcher"
-                android:scaleType="fitXY"
-                android:transitionName="@string/detail_icon_transition_name"/>
+                android:src="@drawable/ic_launcher"/>
 
             <TextView
                 android:id="@+id/listBookTitle"
