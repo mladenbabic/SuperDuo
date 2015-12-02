@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/fullBookCover"
+                style="@style/bookCover"
+                android:layout_gravity="top"
+                android:layout_margin="4dp"
+                android:contentDescription="@string/book_cover"
+                android:src="@drawable/ic_launcher"
+                android:transitionName="@string/detail_icon_transition_name"/>/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/fullBookTitle"
+                    style="@style/bookTitle"
+                    android:maxLines="2"
+                    tools:text="Android UI Fundamental" />
+
+                <TextView
+                    android:id="@+id/fullBookSubTitle"
+                    style="@style/bookSubTitle"
+                    android:lines="2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/fullBookDesc"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/categories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|top" />
+
+                    <TextView
+                        android:id="@+id/authors"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right|top"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        app:cardUseCompatPadding="true"
+        android:minHeight="100dp"
+        android:nestedScrollingEnabled="false"
+        android:measureAllChildren="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fullBookDescLbl"
+                style="?attr/textAppearanceSearchResultTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Description" />
+
+            <TextView
+                android:id="@+id/fullBookDesc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fullBookCover"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                tools:text="@string/large_text"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

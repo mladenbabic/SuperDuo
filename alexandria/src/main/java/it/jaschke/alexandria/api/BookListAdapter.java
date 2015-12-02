@@ -58,7 +58,7 @@ public class BookListAdapter extends CursorRecyclerViewAdapter<BookListAdapter.V
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            view.setOnClickListener(this);
+            bookCover.setOnClickListener(this);
         }
 
         @Override

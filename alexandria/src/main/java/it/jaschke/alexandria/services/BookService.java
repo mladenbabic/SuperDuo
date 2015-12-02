@@ -39,9 +39,11 @@ public class BookService extends IntentService {
     public static final String DELETE_BOOK = "it.jaschke.alexandria.services.action.DELETE_BOOK";
     public static final String EAN = "it.jaschke.alexandria.services.extra.EAN";
 
-    public static final int FOUND_OK = 0;
-    public static final int NO_CONNECTION = 1;
-    public static final int NO_BOOK = 2;
+    public static final int FOUND_BOOK_OK = 0;
+    public static final int ADD_BOOK_OK = 1;
+    public static final int DELETE_BOOK_OK = 2;
+    public static final int NO_BOOK = 3;
+    public static final int NO_CONNECTION = 4;
 
     public BookService() {
         super("Alexandria");
@@ -67,7 +69,11 @@ public class BookService extends IntentService {
      */
     private void deleteBook(String ean) {
         if (ean != null) {
-            getContentResolver().delete(AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean)), null, null);
+           Uri bookUri = AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean));
+            if(bookUri != null){
+                getContentResolver().delete(bookUri, null, null);
+                sendEvent(DELETE_BOOK_OK);
+            }
         }
     }
 
@@ -91,7 +97,7 @@ public class BookService extends IntentService {
 
         if (bookEntry.getCount() > 0) {
             bookEntry.close();
-            sendEvent(FOUND_OK);
+            sendEvent(FOUND_BOOK_OK);
             return;
         }
 
@@ -205,7 +211,7 @@ public class BookService extends IntentService {
                 writeBackCategories(ean, bookInfo.getJSONArray(CATEGORIES));
             }
 
-            sendEvent(FOUND_OK);
+            sendEvent(FOUND_BOOK_OK);
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
         }

@@ -133,13 +133,13 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
         }
     }
 
-    private void setEmptyView(boolean showEmptyView) {
-        mEmptyBooksView.setVisibility(showEmptyView ? View.VISIBLE : View.GONE);
-    }
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mBookListAdapter.swapCursor(null);
+    }
+
+    private void restartLoader() {
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -191,7 +191,8 @@ public class BookListFragment extends Fragment implements LoaderManager.LoaderCa
         return false;
     }
 
-    private void restartLoader() {
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
+    private void setEmptyView(boolean showEmptyView) {
+        mEmptyBooksView.setVisibility(showEmptyView ? View.VISIBLE : View.GONE);
     }
+
 }

@@ -12,22 +12,20 @@ public class BookDetailActivity extends BaseActivity {
 
     private static final String TAG = "BookDetailActivity";
 
-    private CharSequence title;
-    public static boolean IS_TABLET = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate() called with: " + "savedInstanceState = [" + savedInstanceState + "]");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_detail_book);
 
         ButterKnife.bind(this);
-        setToolbar(false, true);
+        setToolbar(true, true);
+        getSupportActionBar().setTitle(null);
 
         if(savedInstanceState == null){
+            Bundle bundle = new Bundle(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, BookDetailFragment.getInstance(new Bundle()))
-                    .addToBackStack(null)
+                    .replace(R.id.containerDetail, BookDetailFragment.getInstance(bundle))
                     .commit();
         }
     }

@@ -23,6 +23,7 @@
         <item name="android:textIsSelectable">true</item>
         <item name="android:textSize">@dimen/head_line</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">@dimen/abc_list_item_padding_horizontal_material</item>
     </style>
 
     <style name="bookSubTitle">
@@ -31,6 +32,15 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="bookCover">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">150dp</item>
     </style>
 
 </resources>

@@ -27,7 +27,8 @@
                 android:layout_height="150dp"
                 android:contentDescription="@string/book_cover"
                 android:src="@drawable/ic_launcher"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:transitionName="@string/detail_icon_transition_name"/>
 
             <TextView
                 android:id="@+id/listBookTitle"

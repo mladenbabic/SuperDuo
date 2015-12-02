@@ -1,5 +1,7 @@
 package it.jaschke.alexandria.activity;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +10,6 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -23,11 +24,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -68,7 +69,6 @@ public class AddBookActivity extends BaseActivity
     @Bind(R.id.progressBar)
     ProgressBar mProgressBar;
 
-    @Nullable
     @Bind(R.id.bookDetailContainer)
     CardView mBookDetailContainer;
     @Bind(R.id.coordinator)
@@ -128,15 +128,45 @@ public class AddBookActivity extends BaseActivity
         if (searchView != null) {
             searchView.setQuery("", false);
         }
+        getContentResolver().notifyChange(AlexandriaContract.BookEntry.CONTENT_URI, null);
     }
 
-    @OnClick(R.id.save_button)
+
+    @OnClick(R.id.delete_button)
     public void onDeleteBook(View view) {
         Intent bookIntent = new Intent(this, BookService.class);
         bookIntent.putExtra(BookService.EAN, mTextSearch);
         bookIntent.setAction(BookService.DELETE_BOOK);
-        this.startService(bookIntent);
+        startService(bookIntent);
         clearFields();
+        animateCloseCard();
+    }
+
+    private void animateCloseCard() {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mBookDetailContainer, View.TRANSLATION_Y, -400);
+        objectAnimator.setInterpolator(new AccelerateInterpolator());
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mBookDetailContainer.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        objectAnimator.start();
     }
 
     @NonNull
@@ -184,18 +214,19 @@ public class AddBookActivity extends BaseActivity
 
         String subTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
         mBookSubTitle.setText(subTitle);
+        mBookSubTitle.setVisibility(TextUtils.isEmpty(subTitle) ? View.GONE : View.VISIBLE);
 
         String authorsString = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
 
-        if (TextUtils.isEmpty(authorsString)) {
+        if (!TextUtils.isEmpty(authorsString)) {
             String[] authorsArr = authorsString.split(",");
             mAuthors.setLines(authorsArr.length);
             mAuthors.setText(authorsString.replace(",", "\n"));
         }
 
-        String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
+        mAuthors.setVisibility(TextUtils.isEmpty(authorsString) ? View.GONE : View.VISIBLE);
 
-        mBookCover.setVisibility(View.VISIBLE);
+        String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
 
         Glide.with(this)
                 .load(imgUrl)
@@ -220,6 +251,7 @@ public class AddBookActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.d(TAG, "onCreateOptionsMenu() returned: ");
+        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_book, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -247,6 +279,7 @@ public class AddBookActivity extends BaseActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected() called with: " + "item = [" + item + "]");
         // Handle item selection
+        super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.action_scan_book:
                 IntentIntegrator integrator = new IntentIntegrator(this);
@@ -256,6 +289,9 @@ public class AddBookActivity extends BaseActivity
                 integrator.setBeepEnabled(false);
                 integrator.setBarcodeImageEnabled(true);
                 integrator.initiateScan();
+                break;
+            case android.R.id.home:
+                finish();
                 break;
         }
         return true;
@@ -309,7 +345,6 @@ public class AddBookActivity extends BaseActivity
         bookIntent.setAction(BookService.FETCH_BOOK);
         this.startService(bookIntent);
         mProgressBar.setVisibility(View.VISIBLE);
-        restartLoader();
         return false;
     }
 
@@ -321,9 +356,13 @@ public class AddBookActivity extends BaseActivity
                 @ServiceResponse int code = intent.getIntExtra(MESSAGE_KEY, BookService.NO_BOOK);
                 String message = null;
                 switch (code) {
-                    case BookService.FOUND_OK:
+                    case BookService.FOUND_BOOK_OK:
+                    case BookService.ADD_BOOK_OK:
                         restartLoader();
                         message = getString(R.string.book_found);
+                        break;
+                    case BookService.DELETE_BOOK_OK:
+                        message = getString(R.string.book_deleted);
                         break;
                     case BookService.NO_CONNECTION:
                         message = getString(R.string.no_internet_connection);
@@ -332,7 +371,6 @@ public class AddBookActivity extends BaseActivity
                         message = getString(R.string.not_found);
                         break;
                 }
-                Toast.makeText(AddBookActivity.this, message, Toast.LENGTH_SHORT).show();
                 Snackbar.make(mBookCoordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.GONE);
             }

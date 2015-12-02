@@ -12,6 +12,6 @@ import it.jaschke.alexandria.services.BookService;
  */
 
 @Retention(RetentionPolicy.SOURCE)
-@IntDef({BookService.FOUND_OK, BookService.NO_CONNECTION, BookService.NO_BOOK})
+@IntDef({BookService.FOUND_BOOK_OK, BookService.DELETE_BOOK_OK, BookService.ADD_BOOK_OK, BookService.NO_CONNECTION, BookService.NO_BOOK})
 public @interface ServiceResponse {
 }
