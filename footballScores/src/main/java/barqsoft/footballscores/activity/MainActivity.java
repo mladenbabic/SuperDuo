@@ -12,6 +12,8 @@ import barqsoft.footballscores.fragment.PagerFragment;
 import barqsoft.footballscores.sync.FootballScoresSyncAdapter;
 
 public class MainActivity extends AppCompatActivity {
+
+
     public static int selected_match_id;
     public static int current_fragment = 2;
     public static String LOG_TAG = "MainActivity";
