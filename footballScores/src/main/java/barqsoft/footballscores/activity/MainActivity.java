@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-
     public static int current_fragment = 2;
     public static final int NUM_PAGES = 5;
     public static String TAG = "MainActivity";
@@ -85,9 +84,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());//TODO Mladen  check for loading
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());//TODO Mladen check it
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
 
         FootballScoresSyncAdapter.initializeSyncAdapter(this);
     }

@@ -195,7 +195,6 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                     if (teamResult != null) {
                         for (Team team : teamResult.getTeams()) {
                             String teamId = extractId(team.getLinks().getSelf());
-                            Log.d(TAG, "retrieveTeams: found team " + team + " ID " + teamId);
                             mTeamMap.put(teamId, team);
                         }
                     } else {

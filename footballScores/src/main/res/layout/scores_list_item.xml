@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/cardMarginVertical"
     android:layout_marginLeft="@dimen/cardMarginHorizontal"
+    android:layout_marginStart="@dimen/cardMarginHorizontal"
     android:layout_marginRight="@dimen/cardMarginHorizontal"
+    android:layout_marginEnd="@dimen/cardMarginHorizontal"
     android:layout_marginTop="@dimen/cardMarginVertical"
     android:background="@android:color/white"
     android:foreground="?attr/selectableItemBackground"
@@ -19,110 +21,120 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/card_view_height"
             android:orientation="horizontal"
-            android:paddingTop="5dp"
+            android:paddingTop="@dimen/spacing_tiny"
             android:weightSum="1">
 
             <TextView
                 android:id="@+id/home_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textSize="@dimen/TeamNames"
-                app:layout_gravity="right"
-                tools:text="@string/test_text"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="16dp" />
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/font_larger"
+                app:layout_gravity="right"
+                tools:text="@string/match_detail_test_text" />
 
             <TextView
                 android:id="@+id/away_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text=""
-                android:textSize="@dimen/TeamNames"
-                app:layout_gravity="left"
-                tools:text="@string/test_text"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="16dp" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/font_larger"
+                app:layout_gravity="left"
+                tools:text="@string/match_detail_test_text" />
 
             <TextView
                 android:id="@+id/score_home_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:textSize="@dimen/Score"
-                app:layout_gravity="center"
-                tools:text="2"
                 android:layout_centerVertical="true"
+                android:layout_gravity="left|center"
+                android:layout_marginRight="@dimen/spacing_smaller"
+                android:layout_marginLeft="@dimen/spacing_smaller"
+                android:layout_marginStart="@dimen/spacing_smaller"
+                android:layout_marginEnd="@dimen/spacing_smaller"
                 android:layout_toLeftOf="@+id/textView"
                 android:layout_toStartOf="@+id/textView"
-                android:layout_marginRight="8dp" />
+                android:textSize="@dimen/font_huge"
+                app:layout_gravity="center"
+                tools:text="2" />
 
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/score_home_textview"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:text="-"
-                android:textSize="@dimen/Score"
-                android:id="@+id/textView" />
+                android:textSize="@dimen/font_huge" />
 
 
             <TextView
                 android:id="@+id/score_away_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/Score"
-                app:layout_gravity="center"
-                tools:text="4"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/textView"
+                android:layout_marginLeft="@dimen/spacing_smaller"
+                android:layout_marginStart="@dimen/spacing_smaller"
+                android:layout_marginRight="@dimen/spacing_smaller"
+                android:layout_marginEnd="@dimen/spacing_smaller"
                 android:layout_toEndOf="@+id/textView"
-                android:layout_marginLeft="8dp" />
+                android:layout_toRightOf="@+id/textView"
+                android:textSize="@dimen/font_huge"
+                app:layout_gravity="center"
+                tools:text="4" />
 
             <ImageView
                 android:id="@+id/home_crest"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="top|left"
+                android:layout_width="@dimen/image_size_width"
+                android:layout_height="@dimen/image_size_height"
                 android:layout_above="@+id/data_textview"
                 android:layout_alignLeft="@+id/home_name"
-                android:layout_alignStart="@+id/home_name" />
+                android:layout_alignStart="@+id/home_name"
+                android:layout_gravity="top|left" />
 
             <ImageView
                 android:id="@+id/away_crest"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="@dimen/image_size_width"
+                android:layout_height="@dimen/image_size_height"
                 android:layout_above="@+id/data_textview"
-                android:layout_alignRight="@+id/away_name"
-                android:layout_alignEnd="@+id/away_name" />
-
+                android:layout_alignEnd="@+id/away_name"
+                android:layout_alignRight="@+id/away_name" />
 
             <TextView
                 android:id="@+id/match_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/test_text"
-                android:gravity="center_horizontal"
                 android:layout_above="@+id/data_textview"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                tools:text="@string/match_detail_test_text" />
 
             <TextView
                 android:id="@+id/data_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/test_text"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="@dimen/spacing_smaller"
+                tools:text="@string/match_detail_test_text" />
 
         </RelativeLayout>
 
@@ -130,58 +142,60 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
             android:background="@color/divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_smaller"
+            android:layout_marginTop="@dimen/spacing_smaller"
             android:gravity="fill"
             android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:paddingEnd="@dimen/spacing_normal"
+            android:paddingStart="@dimen/spacing_normal">
 
             <TextView
                 android:id="@+id/detail_textview_league"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/detail_button_share"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:textColor="@color/primaryTextColor"
-                android:textSize="18sp"
-                tools:text="League"
-                android:focusableInTouchMode="true"
-                android:layout_alignTop="@+id/detail_button_share"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:textSize="@dimen/font_large"
+                tools:text="@string/match_detail_league" />
 
             <TextView
                 android:id="@+id/detail_textview_matchday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:textColor="@color/primaryTextColor"
-                android:textSize="16dp"
-                tools:text="Match day"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:textSize="@dimen/font_normal"
+                tools:text="@string/match_detail_match_day" />
 
             <ImageView
                 android:id="@+id/detail_button_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="right"
-                android:contentDescription="Share match"
+                android:contentDescription="@string/match_detail_share_match"
                 android:gravity="right"
                 android:src="@drawable/abc_ic_menu_share_mtrl_alpha"
-                android:tint="@color/primaryTextColor"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:tint="@color/primaryTextColor" />
 
         </RelativeLayout>
 

@@ -29,56 +29,56 @@ public class Utilies {
     public static final int LEAGUE_ONE = 425; // "League One 2015/16"
 
 
-    public static String getLeague(int league_num) {
+    public static String getLeague(Context mContext, int league_num) {
         switch (league_num) {
             case SERIE_A:
-                return "Seria A";
+                return mContext.getString(R.string.seriaa);
             case PREMIER_LEAGUE:
-                return "Premier League";
+                return mContext.getString(R.string.premierleague);
             case CHAMPIONS_LEAGUE:
-                return "UEFA Champions League";
+                return mContext.getString(R.string.champions_league);
             case PRIMERA_DIVISION:
-                return "Primera Division";
+                return mContext.getString(R.string.primeradivison);
             case SEGUNDA_DIVISION:
-                return "Segunda Division";
+                return mContext.getString(R.string.segundadivison);
             case BUNDESLIGA:
-                return "Bundesliga";
+                return mContext.getString(R.string.bundesliga);
             case BUNDESLIGA2:
-                return "Bundesliga 2";
+                return mContext.getString(R.string.bundesliga_2);
             case BUNDESLIGA3:
-                return "Bundesliga 3";
+                return mContext.getString(R.string.bundesliga_3);
             case LIGUE_1:
-                return "LIGUE 1";
+                return mContext.getString(R.string.ligue_1);
             case LIGUE_2:
-                return "LIGUE 2";
+                return mContext.getString(R.string.ligue_2);
             case PREMIERA_LIGA:
-                return "Premiera Liga";
+                return mContext.getString(R.string.primeradivison);
             case EREDIVISIE:
-                return "Eredivisie";
+                return mContext.getString(R.string.eredivisie);
             case EURO_CHAMPIONSHIPS_FRANCE:
-                return "Euro Championships";
+                return mContext.getString(R.string.euro_championships_france);
             case LEAGUE_ONE:
-                return "League One";
+                return mContext.getString(R.string.league_1);
             default:
-                return "Not known League: " + league_num;
+                return mContext.getString(R.string.not_known_league);
         }
     }
 
-    public static String getMatchDay(int match_day, int league_num) {
+    public static String getMatchDay(Context mContext, int match_day, int league_num) {
         if (league_num == CHAMPIONS_LEAGUE) {
             if (match_day <= 6) {
-                return "Group Stages, Matchday : 6";
+                return mContext.getString(R.string.match_detail_ch_group_stage);
             } else if (match_day == 7 || match_day == 8) {
-                return "First Knockout round";
+                return mContext.getString(R.string.match_detail_ch_first_knockout);
             } else if (match_day == 9 || match_day == 10) {
-                return "QuarterFinal";
+                return mContext.getString(R.string.match_detail_ch_quarterfinals);
             } else if (match_day == 11 || match_day == 12) {
-                return "SemiFinal";
+                return mContext.getString(R.string.match_detail_ch_semifinals);
             } else {
-                return "Final";
+                return mContext.getString(R.string.match_detail_ch_finals);
             }
         } else {
-            return "Matchday : " + String.valueOf(match_day);
+            return mContext.getString(R.string.match_detail_match_day) + " " + String.valueOf(match_day);
         }
     }
 
@@ -102,11 +102,11 @@ public class Utilies {
         int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
         int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
         if (julianDay == currentJulianDay) {
-            return context.getString(R.string.today);
+            return context.getString(R.string.match_detail_today);
         } else if (julianDay == currentJulianDay + 1) {
-            return context.getString(R.string.tomorrow);
+            return context.getString(R.string.match_detail_tomorrow);
         } else if (julianDay == currentJulianDay - 1) {
-            return context.getString(R.string.yesterday);
+            return context.getString(R.string.match_detail_yesterday);
         } else {
             Time time = new Time();
             time.setToNow();
@@ -115,7 +115,6 @@ public class Utilies {
             return dayFormat.format(dateInMillis);
         }
     }
-
 
 
 }

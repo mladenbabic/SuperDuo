@@ -87,7 +87,7 @@ public class MainScreenFragment extends Fragment
         mScoreList.setLayoutManager(layoutManager);
 
         mScoreAdapter = new ScoresAdapter(getActivity(), null);
-        mAdapter = new RecyclerViewMaterialAdapter(mScoreAdapter, 1);
+        mAdapter = new RecyclerViewMaterialAdapter(mScoreAdapter, gridColumns);
         mScoreList.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(SCORES_LOADER, null, this);

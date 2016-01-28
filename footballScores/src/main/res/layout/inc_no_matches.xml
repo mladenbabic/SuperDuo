@@ -20,10 +20,10 @@
         <TextView
             android:id="@+id/no_matches_text_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/card_view_height"
             android:gravity="center"
-            android:text="@string/cardview_no_matches"
-            android:textSize="20dp" />
+            android:text="@string/match_detail_no_matches"
+            android:textSize="@dimen/font_huge" />
 
     </android.support.v7.widget.CardView>
 </FrameLayout>

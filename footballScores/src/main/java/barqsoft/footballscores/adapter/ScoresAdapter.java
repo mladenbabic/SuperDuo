@@ -39,7 +39,6 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
         this.mContext = context;
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -59,32 +58,29 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
             viewHolder.scoreAway.setText("" + bookModel.getScoreAway());
 
             if (Status.FINISHED.equals(bookModel.getMatchStatus())) {
-                viewHolder.mMatchStatus.setText(mContext.getString(R.string.finished));
+                viewHolder.mMatchStatus.setText(mContext.getString(R.string.match_detail_finished));
             } else {
-                viewHolder.mMatchStatus.setText(mContext.getString(R.string.timed));
+                viewHolder.mMatchStatus.setText(mContext.getString(R.string.match_detail_timed));
             }
         } else {
             viewHolder.scoreHome.setText("0");
             viewHolder.scoreAway.setText("0");
         }
 
-        viewHolder.mMatchdayTextView.setText(Utilies.getMatchDay(bookModel.getMatchday(), bookModel.getSessionId()));
-        viewHolder.mLeagueTextView.setText(Utilies.getLeague(bookModel.getSessionId()));
+        viewHolder.mMatchdayTextView.setText(Utilies.getMatchDay(mContext, bookModel.getMatchday(), bookModel.getSessionId()));
+        viewHolder.mLeagueTextView.setText(Utilies.getLeague(mContext, bookModel.getSessionId()));
 
-        //TODO Mladen Set content description
         viewHolder.mShareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(
-                        createShareForecastIntent(
-                                viewHolder.home_name.getText() + " " +
-                                        viewHolder.scoreHome.getText() + " - " +
-                                        viewHolder.scoreAway.getText() + " " +
-                                        viewHolder.away_name.getText() + " "
+                mContext.startActivity(createShareIntent(viewHolder.home_name.getText() + " " + viewHolder.scoreHome.getText() + " - " +
+                                        viewHolder.scoreAway.getText() + " " + viewHolder.away_name.getText() + " "
                         )
                 );
             }
         });
+
+        viewHolder.mShareImageView.setContentDescription(mContext.getString(R.string.match_detail_share_match));
 
         Glide.with(mContext)
                 .load(Utilies.getTeamCrestURL(bookModel.getCrestHomeUrl()))
@@ -98,10 +94,12 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
                 .placeholder(R.drawable.ic_launcher)
                 .into(viewHolder.away_crest);
 
+        viewHolder.home_crest.setContentDescription(bookModel.getHomeName());
+        viewHolder.away_crest.setContentDescription(bookModel.getAwayHome());
 
     }
 
-    public Intent createShareForecastIntent(String ShareText) {
+    public Intent createShareIntent(String ShareText) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.setType("text/plain");
