@@ -6,11 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerAnimator;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
@@ -22,70 +26,75 @@ import java.util.Date;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.adapter.ScoresAdapter;
 import barqsoft.footballscores.db.DatabaseContract;
+import barqsoft.footballscores.event.OnRefreshEndEvent;
 import barqsoft.footballscores.sync.FootballScoresSyncAdapter;
 import barqsoft.footballscores.util.Constants;
+import barqsoft.footballscores.util.DeviceUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainScreenFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>,
+        SwipeRefreshLayout.OnRefreshListener {
 
 
+    private static final String TAG = "MainScreenFragment";
     @Bind(R.id.scores_list)
     RecyclerView mScoreList;
+
+    @Bind(R.id.no_matches_container)
+    FrameLayout mNoMatchesContainer;
+
+    @Bind(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     public ScoresAdapter mScoreAdapter;
     private RecyclerViewMaterialAdapter mAdapter;
     public static final int SCORES_LOADER = 0;
-    private int last_selected_item = -1;
     private int mPosition;
     private String mFormattedDate;
 
     public MainScreenFragment() {
     }
 
-    private void update_scores() {
-        FootballScoresSyncAdapter.syncImmediately(getContext());
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
-        update_scores();
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
 
-        if(getArguments() != null && getArguments().containsKey(Constants.POSITION_KEY)){
+        if (getArguments() != null && getArguments().containsKey(Constants.POSITION_KEY)) {
             mPosition = getArguments().getInt(Constants.POSITION_KEY);
             Date fragmentDate = new Date(System.currentTimeMillis() + ((mPosition - 2) * 86400000));
             SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
             mFormattedDate = mformat.format(fragmentDate);
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        int gridColumns = getActivity().getResources().getInteger(R.integer.grid_columns);
+
+        RecyclerView.LayoutManager layoutManager = null;
+
+        if (!DeviceUtil.isLandscape(getContext())) {
+            layoutManager = new LinearLayoutManager(getActivity());
+        } else {
+            layoutManager = new GridLayoutManager(getActivity(), gridColumns);
+        }
+
         mScoreList.setLayoutManager(layoutManager);
 
         mScoreAdapter = new ScoresAdapter(getActivity(), null);
         mAdapter = new RecyclerViewMaterialAdapter(mScoreAdapter, 1);
-
         mScoreList.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(SCORES_LOADER, null, this);
-
-//        mScoreList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ViewHolder selected = (ViewHolder) view.getTag();
-//                mAdapter.detail_match_id = selected.match_id;
-//                MainActivity.selected_match_id = (int) selected.match_id;
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        });
-
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mScoreList, null);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         //Workaround to disable log
         MaterialViewPagerAnimator animator = MaterialViewPagerHelper.getAnimator(this.getContext());
@@ -101,13 +110,21 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            cursor.moveToNext();
+        if (cursor.getCount() == 0) {
+            mNoMatchesContainer.setVisibility(View.VISIBLE);
+            mSwipeRefreshLayout.setVisibility(View.GONE);
+        } else {
+            cursor.moveToFirst();
+            mNoMatchesContainer.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+
+            while (!cursor.isAfterLast()) {
+                cursor.moveToNext();
+            }
+            mScoreAdapter.swapCursor(cursor);
+            mAdapter.notifyDataSetChanged();
+
         }
-        //Log.v(FetchScoreTask.TAG,"Loader query: " + String.valueOf(i));
-        mScoreAdapter.swapCursor(cursor);
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -115,10 +132,36 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         mScoreAdapter.swapCursor(null);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void refreshMatches() {
+        Log.d(TAG, "refreshMatches: ");
+        FootballScoresSyncAdapter.syncImmediately(getContext());
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        refreshMatches();
+    }
+
+    public void onEvent(OnRefreshEndEvent event){
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     public static Fragment newInstance(Bundle bundle) {
-        Fragment fragment =  new MainScreenFragment();
+        Fragment fragment = new MainScreenFragment();
         fragment.setArguments(bundle);
-        return  fragment;
+        return fragment;
     }
 }

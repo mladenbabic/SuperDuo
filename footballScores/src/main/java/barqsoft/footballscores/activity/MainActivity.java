@@ -1,6 +1,5 @@
 package barqsoft.footballscores.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,28 +14,25 @@ import android.view.MenuItem;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 
-import java.text.SimpleDateFormat;
-
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.fragment.MainScreenFragment;
 import barqsoft.footballscores.sync.FootballScoresSyncAdapter;
 import barqsoft.footballscores.util.Constants;
+import barqsoft.footballscores.util.Utilies;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
 
-    public static int selected_match_id;
     public static int current_fragment = 2;
     public static final int NUM_PAGES = 5;
     public static String TAG = "MainActivity";
-    private final String save_tag = "Save Test";
-
     private Toolbar toolbar;
 
     @Bind(R.id.materialViewPager)
     MaterialViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        mViewPager.getViewPager().setCurrentItem(current_fragment);
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
@@ -76,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public CharSequence getPageTitle(int position) {
-                return getDayName(MainActivity.this, System.currentTimeMillis() + ((position - 2) * 86400000));
+                return Utilies.getDayName(MainActivity.this, System.currentTimeMillis() + ((position - 2) * 86400000));
             }
         });
 
@@ -89,37 +85,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());//TODO Mladen  check for loading
-//        mViewPager.getViewPager().setOffscreenPageLimit(2);
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
+
 
         FootballScoresSyncAdapter.initializeSyncAdapter(this);
     }
 
 
-    public String getDayName(Context context, long dateInMillis) {
-        // If the date is today, return the localized version of "Today" instead of the actual
-        // day name.
-
-        Time t = new Time();
-        t.setToNow();
-        int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
-        int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
-        if (julianDay == currentJulianDay) {
-            return context.getString(R.string.today);
-        } else if (julianDay == currentJulianDay + 1) {
-            return context.getString(R.string.tomorrow);
-        } else if (julianDay == currentJulianDay - 1) {
-            return context.getString(R.string.yesterday);
-        } else {
-            Time time = new Time();
-            time.setToNow();
-            // Otherwise, the format is just the day of the week (e.g "Wednesday".
-            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
-            return dayFormat.format(dateInMillis);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -144,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
 }

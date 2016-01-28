@@ -40,4 +40,5 @@
     <string name="content_authority">barqsoft.footballscores</string>
     <string name="finished">Finished</string>
     <string name="timed">Timed</string>
+    <string name="cardview_no_matches">No matches</string>
 </resources>

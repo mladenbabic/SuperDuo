@@ -1,5 +1,7 @@
 package barqsoft.footballscores.http;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import retrofit.Call;
@@ -10,9 +12,15 @@ import retrofit.Response;
  */
 public class CallResponse<T> {
 
+    private static final boolean DEBUG = true;
+    private static final String TAG = "CallResponse";
+
     public T execute(Call<T> call) {
         try {
             Response<T> response = call.execute();
+            if(DEBUG){
+                Log.d(TAG, "execute: " + response.isSuccess());
+            }
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();

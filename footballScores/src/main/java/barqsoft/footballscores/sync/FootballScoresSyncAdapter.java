@@ -11,6 +11,8 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,6 +28,7 @@ import java.util.Vector;
 
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.db.DatabaseContract;
+import barqsoft.footballscores.event.OnRefreshEndEvent;
 import barqsoft.footballscores.http.CallResponse;
 import barqsoft.footballscores.http.HttpUtil;
 import barqsoft.footballscores.model.Fixtures;
@@ -34,14 +37,14 @@ import barqsoft.footballscores.model.Href;
 import barqsoft.footballscores.model.Season;
 import barqsoft.footballscores.model.Team;
 import barqsoft.footballscores.model.TeamResult;
+import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String TAG = FootballScoresSyncAdapter.class.getSimpleName();
-    public static final String ACTION_DATA_UPDATED = "barqsoft.footballscores.ACTION_DATA_UPDATED";
+    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     public static final int SYNC_INTERVAL = 60 * 1; //TEST
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private String apiKey;
     private Map<String, Team> mTeamMap = new HashMap<>();
     private static final int SEASON_MIN = 394;
@@ -55,9 +58,17 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(TAG, "Starting sync");
+        mTeamMap.clear();
         retrieveTeams();
         retrieveFixtures("n2");
         retrieveFixtures("p2");
+
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new OnRefreshEndEvent());
+            }
+        });
     }
 
     private void retrieveFixtures(String timeFrame) {
@@ -151,7 +162,7 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
         ContentValues[] insert_data = new ContentValues[values.size()];
         values.toArray(insert_data);
         inserted_data = getContext().getContentResolver().bulkInsert(DatabaseContract.BASE_CONTENT_URI, insert_data);
-        Log.v(TAG, "Succesfully Inserted : " + String.valueOf(inserted_data));
+        Log.v(TAG, "Successfully inserted : " + String.valueOf(inserted_data));
     }
 
     private String getTeamName(Team team) {
@@ -172,7 +183,6 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void retrieveTeams() {
-        mTeamMap.clear();
         Call<List<Season>> seasonResultCall = HttpUtil.getService().getSoccerSeasons(apiKey);
         List<Season> seasonResult = new CallResponse<List<Season>>().execute(seasonResultCall);
 
@@ -188,6 +198,8 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                             Log.d(TAG, "retrieveTeams: found team " + team + " ID " + teamId);
                             mTeamMap.put(teamId, team);
                         }
+                    } else {
+                        Log.d(TAG, "retrieveTeams: no teams for season " + seasonId);
                     }
                 }
             }
