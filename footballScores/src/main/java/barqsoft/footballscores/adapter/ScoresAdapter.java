@@ -72,7 +72,6 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
         viewHolder.mLeagueTextView.setText(Utilies.getLeague(bookModel.getSessionId()));
 
         //TODO Mladen Set content description
-
         viewHolder.mShareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,11 +89,13 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
         Glide.with(mContext)
                 .load(Utilies.getTeamCrestURL(bookModel.getCrestHomeUrl()))
                 .error(R.drawable.ic_launcher)
+                .placeholder(R.drawable.ic_launcher)
                 .into(viewHolder.home_crest);
 
         Glide.with(mContext)
                 .load(Utilies.getTeamCrestURL(bookModel.getCrestAwayUrl()))
                 .error(R.drawable.ic_launcher)
+                .placeholder(R.drawable.ic_launcher)
                 .into(viewHolder.away_crest);
 
 
