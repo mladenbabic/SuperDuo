@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="accentColor">#FFC107</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="primaryTextColor">#212121</color>
+    <color name="statusBarColor">#3F51B5</color>
+    <color name="navigationBarColor">@android:color/black</color>
+    <color name="drawerArrowColor">@android:color/white</color>
+    <color name="tabsScrollColor">#FFFFFF</color>
+    <color name="window_background">#FFF5F5F5</color>
+    <color name="divider">#AEAEAE</color>
+
     <color name="blue01">#0099CC</color>
     <color name="blue02">#079DD0</color>
     <color name="blue03">#0FA1D3</color>

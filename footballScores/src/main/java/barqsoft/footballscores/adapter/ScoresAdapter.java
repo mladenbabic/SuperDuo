@@ -3,97 +3,103 @@ package barqsoft.footballscores.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.api.CursorRecyclerViewAdapter;
+import barqsoft.footballscores.api.FixtureModel;
+import barqsoft.footballscores.util.Status;
 import barqsoft.footballscores.util.Utilies;
-import barqsoft.footballscores.util.ViewHolder;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by yehya khaled on 2/26/2015.
  */
-public class ScoresAdapter extends CursorAdapter
-{
-    public static final int COL_HOME = 3;
-    public static final int COL_AWAY = 4;
-    public static final int COL_HOME_GOALS = 6;
-    public static final int COL_AWAY_GOALS = 7;
-    public static final int COL_DATE = 1;
-    public static final int COL_LEAGUE = 5;
-    public static final int COL_MATCHDAY = 9;
-    public static final int COL_ID = 8;
-    public static final int COL_MATCHTIME = 2;
-    public double detail_match_id = 0;
+public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewHolder> {
+
+    private final Context mContext;
     private String FOOTBALL_SCORES_HASHTAG = "#Football_Scores";
-    public ScoresAdapter(Context context, Cursor cursor, int flags)
-    {
-        super(context,cursor,flags);
+    private static final int TYPE_CELL = 1;
+
+    @Override
+    public int getItemViewType(int position) {
+        return TYPE_CELL;
+    }
+
+    public ScoresAdapter(Context context, Cursor c) {
+        super(context, c);
+        this.mContext = context;
+    }
+
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.scores_list_item, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent)
-    {
-        View mItem = LayoutInflater.from(context).inflate(R.layout.scores_list_item, parent, false);
-        ViewHolder mHolder = new ViewHolder(mItem);
-        mItem.setTag(mHolder);
-        //Log.v(FetchScoreTask.LOG_TAG,"new View inflated");
-        return mItem;
-    }
+    public void onBindViewHolder(final ViewHolder viewHolder, Cursor cursor) {
+        FixtureModel bookModel = new FixtureModel().fromCursor(cursor);
+        viewHolder.home_name.setText(bookModel.getHomeName());
+        viewHolder.away_name.setText(bookModel.getAwayHome());
+        viewHolder.date.setText(bookModel.getDate());
 
-    @Override
-    public void bindView(View view, final Context context, Cursor cursor)
-    {
-        final ViewHolder mHolder = (ViewHolder) view.getTag();
-        mHolder.home_name.setText(cursor.getString(COL_HOME));
-        mHolder.away_name.setText(cursor.getString(COL_AWAY));
-        mHolder.date.setText(cursor.getString(COL_MATCHTIME));
-        mHolder.score.setText(Utilies.getScores(cursor.getInt(COL_HOME_GOALS), cursor.getInt(COL_AWAY_GOALS)));
-        mHolder.match_id = cursor.getDouble(COL_ID);
+        if (bookModel.getScoreHome() != -1 && bookModel.getScoreAway() != -1) {
+            viewHolder.scoreHome.setText("" + bookModel.getScoreHome());
+            viewHolder.scoreAway.setText("" + bookModel.getScoreAway());
 
-        mHolder.home_crest.setImageResource(Utilies.getTeamCrestByTeamName(
-                cursor.getString(COL_HOME)));
-        mHolder.away_crest.setImageResource(Utilies.getTeamCrestByTeamName(
-                cursor.getString(COL_AWAY)
-        ));
-        //Log.v(FetchScoreTask.LOG_TAG,mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() +" id " + String.valueOf(mHolder.match_id));
-        //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(detail_match_id));
-        LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = vi.inflate(R.layout.detail_fragment, null);
-        ViewGroup container = (ViewGroup) view.findViewById(R.id.details_fragment_container);
-        if(mHolder.match_id == detail_match_id)
-        {
-            //Log.v(FetchScoreTask.LOG_TAG,"will insert extraView");
-
-            container.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , ViewGroup.LayoutParams.MATCH_PARENT));
-            TextView match_day = (TextView) v.findViewById(R.id.matchday_textview);
-            match_day.setText(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY),
-                    cursor.getInt(COL_LEAGUE)));
-            TextView league = (TextView) v.findViewById(R.id.league_textview);
-            league.setText(Utilies.getLeague(cursor.getInt(COL_LEAGUE)));
-            Button share_button = (Button) v.findViewById(R.id.share_button);
-            share_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    //add Share Action
-                    context.startActivity(createShareForecastIntent(mHolder.home_name.getText()+" "
-                    +mHolder.score.getText()+" "+mHolder.away_name.getText() + " "));
-                }
-            });
-        }
-        else
-        {
-            container.removeAllViews();
+            if (Status.FINISHED.equals(bookModel.getMatchStatus())) {
+                viewHolder.mMatchStatus.setText(mContext.getString(R.string.finished));
+            } else {
+                viewHolder.mMatchStatus.setText(mContext.getString(R.string.timed));
+            }
+        } else {
+            viewHolder.scoreHome.setText("0");
+            viewHolder.scoreAway.setText("0");
         }
 
+        viewHolder.mMatchdayTextView.setText(Utilies.getMatchDay(bookModel.getMatchday(), bookModel.getSessionId()));
+        viewHolder.mLeagueTextView.setText(Utilies.getLeague(bookModel.getSessionId()));
+
+        //TODO Mladen Set content description
+
+        viewHolder.mShareImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(
+                        createShareForecastIntent(
+                                viewHolder.home_name.getText() + " " +
+                                        viewHolder.scoreHome.getText() + " - " +
+                                        viewHolder.scoreAway.getText() + " " +
+                                        viewHolder.away_name.getText() + " "
+                        )
+                );
+            }
+        });
+
+        Glide.with(mContext)
+                .load(Utilies.getTeamCrestURL(bookModel.getCrestHomeUrl()))
+                .error(R.drawable.ic_launcher)
+                .into(viewHolder.home_crest);
+
+        Glide.with(mContext)
+                .load(Utilies.getTeamCrestURL(bookModel.getCrestAwayUrl()))
+                .error(R.drawable.ic_launcher)
+                .into(viewHolder.away_crest);
+
+
     }
+
     public Intent createShareForecastIntent(String ShareText) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -101,5 +107,37 @@ public class ScoresAdapter extends CursorAdapter
         shareIntent.putExtra(Intent.EXTRA_TEXT, ShareText + FOOTBALL_SCORES_HASHTAG);
         return shareIntent;
     }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.home_name)
+        TextView home_name;
+        @Bind(R.id.away_name)
+        TextView away_name;
+        @Bind(R.id.score_home_textview)
+        TextView scoreHome;
+        @Bind(R.id.score_away_textview)
+        TextView scoreAway;
+        @Bind(R.id.data_textview)
+        TextView date;
+        @Bind(R.id.match_status)
+        TextView mMatchStatus;
+        @Bind(R.id.detail_textview_league)
+        TextView mLeagueTextView;
+        @Bind(R.id.detail_textview_matchday)
+        TextView mMatchdayTextView;
+        @Bind(R.id.home_crest)
+        ImageView home_crest;
+        @Bind(R.id.away_crest)
+        ImageView away_crest;
+        @Bind(R.id.detail_button_share)
+        ImageView mShareImageView;
+
+        public ViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
 
 }

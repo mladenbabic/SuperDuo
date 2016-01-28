@@ -1,32 +1,60 @@
 package barqsoft.footballscores.util;
 
-import barqsoft.footballscores.R;
+import android.text.TextUtils;
 
 /**
  * Created by yehya khaled on 3/3/2015.
  */
 public class Utilies {
 
-    public static final int SERIE_A = 357;
-    public static final int PREMIER_LEGAUE = 354;
-    public static final int CHAMPIONS_LEAGUE = 362;
-    public static final int PRIMERA_DIVISION = 358;
-    public static final int BUNDESLIGA = 351;
+    public static final int BUNDESLIGA = 394; // "1. Bundesliga 2015/16"
+    public static final int BUNDESLIGA2 = 395; // "2. Bundesliga 2015/16"
+    public static final int BUNDESLIGA3 = 403; // "3. Bundesliga 2015/16"
+    public static final int LIGUE_1 = 396; // "Ligue 1 2015/16"
+    public static final int LIGUE_2 = 397; // "Ligue 2 2015/16"
+    public static final int PREMIER_LEAGUE = 398; // "Premier League 2015/16"
+    public static final int PRIMERA_DIVISION = 399; // "Primera Division 2015/16"
+    public static final int SEGUNDA_DIVISION = 400; // "Segunda Division 2015/16"
+    public static final int SERIE_A = 401; // "Serie A 2015/16"
+    public static final int PREMIERA_LIGA = 402; // "Primeira Liga 2015/16"
+    public static final int EREDIVISIE = 404; // "Eredivisie 2015/16"
+    public static final int CHAMPIONS_LEAGUE = 405; // "Champions League 2015/16"
+    public static final int EURO_CHAMPIONSHIPS_FRANCE = 424; // "European Championships France 2016"
+    public static final int LEAGUE_ONE = 425; // "League One 2015/16"
+
 
     public static String getLeague(int league_num) {
         switch (league_num) {
             case SERIE_A:
                 return "Seria A";
-            case PREMIER_LEGAUE:
+            case PREMIER_LEAGUE:
                 return "Premier League";
             case CHAMPIONS_LEAGUE:
                 return "UEFA Champions League";
             case PRIMERA_DIVISION:
                 return "Primera Division";
+            case SEGUNDA_DIVISION:
+                return "Segunda Division";
             case BUNDESLIGA:
                 return "Bundesliga";
+            case BUNDESLIGA2:
+                return "Bundesliga 2";
+            case BUNDESLIGA3:
+                return "Bundesliga 3";
+            case LIGUE_1:
+                return "LIGUE 1";
+            case LIGUE_2:
+                return "LIGUE 2";
+            case PREMIERA_LIGA:
+                return "Premiera Liga";
+            case EREDIVISIE:
+                return "Eredivisie";
+            case EURO_CHAMPIONSHIPS_FRANCE:
+                return "Euro Championships";
+            case LEAGUE_ONE:
+                return "League One";
             default:
-                return "Not known League Please report";
+                return "Not known League: " + league_num;
         }
     }
 
@@ -48,42 +76,16 @@ public class Utilies {
         }
     }
 
-    public static String getScores(int home_goals, int awaygoals) {
-        if (home_goals < 0 || awaygoals < 0) {
-            return " - ";
-        } else {
-            return String.valueOf(home_goals) + " - " + String.valueOf(awaygoals);
+    public static String getTeamCrestURL(String crestTeamUrl) {
+        if (!TextUtils.isEmpty(crestTeamUrl) && !crestTeamUrl.contains(".png")) {
+            String IMAGE_URL_BASE = "http://upload.wikimedia.org/wikipedia/";
+            String imageName = crestTeamUrl.substring(crestTeamUrl.lastIndexOf("/") + 1);
+            String prefixURL = crestTeamUrl.substring(0, crestTeamUrl.indexOf("/", IMAGE_URL_BASE.length() + 1));
+            String postFixURL = crestTeamUrl.substring(prefixURL.length());
+            crestTeamUrl = prefixURL + "/thumb" + postFixURL + "/200px-" + imageName + ".png";
         }
+        return crestTeamUrl;
     }
 
-    public static int getTeamCrestByTeamName(String teamname) {
-        if (teamname == null) {
-            return R.drawable.no_icon;
-        }
-        switch (teamname) { //This is the set of icons that are currently in the app. Feel free to find and add more
-            //as you go.
-            case "Arsenal London FC":
-                return R.drawable.arsenal;
-            case "Manchester United FC":
-                return R.drawable.manchester_united;
-            case "Swansea City":
-                return R.drawable.swansea_city_afc;
-            case "Leicester City":
-                return R.drawable.leicester_city_fc_hd_logo;
-            case "Everton FC":
-                return R.drawable.everton_fc_logo1;
-            case "West Ham United FC":
-                return R.drawable.west_ham;
-            case "Tottenham Hotspur FC":
-                return R.drawable.tottenham_hotspur;
-            case "West Bromwich Albion":
-                return R.drawable.west_bromwich_albion_hd_logo;
-            case "Sunderland AFC":
-                return R.drawable.sunderland;
-            case "Stoke City FC":
-                return R.drawable.stoke_city;
-            default:
-                return R.drawable.no_icon;
-        }
-    }
+
 }

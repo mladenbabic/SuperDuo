@@ -6,19 +6,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+
+import com.github.florent37.materialviewpager.MaterialViewPagerAnimator;
+import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import barqsoft.footballscores.R;
-import barqsoft.footballscores.activity.MainActivity;
 import barqsoft.footballscores.adapter.ScoresAdapter;
 import barqsoft.footballscores.db.DatabaseContract;
 import barqsoft.footballscores.sync.FootballScoresSyncAdapter;
-import barqsoft.footballscores.util.ViewHolder;
+import barqsoft.footballscores.util.Constants;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -27,84 +34,91 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
     @Bind(R.id.scores_list)
-    ListView score_list;
+    RecyclerView mScoreList;
 
-    public ScoresAdapter mAdapter;
+    public ScoresAdapter mScoreAdapter;
+    private RecyclerViewMaterialAdapter mAdapter;
     public static final int SCORES_LOADER = 0;
-    private String[] fragmentdate = new String[1];
     private int last_selected_item = -1;
+    private int mPosition;
+    private String mFormattedDate;
 
     public MainScreenFragment() {
     }
 
     private void update_scores() {
-//        Intent service_start = new Intent(getActivity(), MyFetchService.class);
-//        getActivity().startService(service_start);
-
         FootballScoresSyncAdapter.syncImmediately(getContext());
-
-
     }
 
-    public void setFragmentDate(String date) {
-        fragmentdate[0] = date;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         update_scores();
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mAdapter = new ScoresAdapter(getActivity(), null, 0);
-        score_list.setAdapter(mAdapter);
-        getLoaderManager().initLoader(SCORES_LOADER, null, this);
-        mAdapter.detail_match_id = MainActivity.selected_match_id;
+        ButterKnife.bind(this, rootView);
 
-        score_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ViewHolder selected = (ViewHolder) view.getTag();
-                mAdapter.detail_match_id = selected.match_id;
-                MainActivity.selected_match_id = (int) selected.match_id;
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        if(getArguments() != null && getArguments().containsKey(Constants.POSITION_KEY)){
+            mPosition = getArguments().getInt(Constants.POSITION_KEY);
+            Date fragmentDate = new Date(System.currentTimeMillis() + ((mPosition - 2) * 86400000));
+            SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+            mFormattedDate = mformat.format(fragmentDate);
+        }
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mScoreList.setLayoutManager(layoutManager);
+
+        mScoreAdapter = new ScoresAdapter(getActivity(), null);
+        mAdapter = new RecyclerViewMaterialAdapter(mScoreAdapter, 1);
+
+        mScoreList.setAdapter(mAdapter);
+
+        getLoaderManager().initLoader(SCORES_LOADER, null, this);
+
+//        mScoreList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ViewHolder selected = (ViewHolder) view.getTag();
+//                mAdapter.detail_match_id = selected.match_id;
+//                MainActivity.selected_match_id = (int) selected.match_id;
+//                mAdapter.notifyDataSetChanged();
+//            }
+//        });
+
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mScoreList, null);
+
+        //Workaround to disable log
+        MaterialViewPagerAnimator animator = MaterialViewPagerHelper.getAnimator(this.getContext());
+        animator.ENABLE_LOG = false;
         return rootView;
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(getActivity(), DatabaseContract.scores_table.buildScoreWithDate(),
-                null, null, fragmentdate, null);
+                null, null, new String[]{mFormattedDate}, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        //Log.v(FetchScoreTask.LOG_TAG,"loader finished");
-        //cursor.moveToFirst();
-        /*
-        while (!cursor.isAfterLast())
-        {
-            Log.v(FetchScoreTask.LOG_TAG,cursor.getString(1));
-            cursor.moveToNext();
-        }
-        */
-
-        int i = 0;
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            i++;
             cursor.moveToNext();
         }
-        //Log.v(FetchScoreTask.LOG_TAG,"Loader query: " + String.valueOf(i));
-        mAdapter.swapCursor(cursor);
-        //mAdapter.notifyDataSetChanged();
+        //Log.v(FetchScoreTask.TAG,"Loader query: " + String.valueOf(i));
+        mScoreAdapter.swapCursor(cursor);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        mAdapter.swapCursor(null);
+        mScoreAdapter.swapCursor(null);
     }
 
 
+    public static Fragment newInstance(Bundle bundle) {
+        Fragment fragment =  new MainScreenFragment();
+        fragment.setArguments(bundle);
+        return  fragment;
+    }
 }
