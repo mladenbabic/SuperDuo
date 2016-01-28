@@ -12,7 +12,7 @@ import retrofit.Response;
  */
 public class CallResponse<T> {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = "CallResponse";
 
     public T execute(Call<T> call) {
