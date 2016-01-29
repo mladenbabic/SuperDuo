@@ -91,8 +91,8 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
         String mHome = null;
         String mAway = null;
         String mMatchId = null;
-        String teamHomeId = null;
-        String teamAwayId = null;
+        String mTeamHomeId = null;
+        String mTeamAwayId = null;
 
         Vector<ContentValues> values = new Vector<ContentValues>(fixturesList.size());
         int i = 0;
@@ -126,11 +126,11 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                         mMatchId = mMatchId + Integer.toString(i);
                     }
 
-                    teamHomeId = extractId(fixtures.getLinks().getHomeTeam());
-                    teamAwayId = extractId(fixtures.getLinks().getAwayTeam());
+                    mTeamHomeId = extractId(fixtures.getLinks().getHomeTeam());
+                    mTeamAwayId = extractId(fixtures.getLinks().getAwayTeam());
 
-                    Team homeTeam = mTeamMap.get(teamHomeId);
-                    Team awayTeam = mTeamMap.get(teamAwayId);
+                    Team homeTeam = mTeamMap.get(mTeamHomeId);
+                    Team awayTeam = mTeamMap.get(mTeamAwayId);
 
                     mHome = getTeamName(homeTeam);
                     mAway = getTeamName(awayTeam);
@@ -151,7 +151,7 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                     values.add(match_values);
 
                 } catch (Exception e) {
-                    Log.d(TAG, "error here! " + teamHomeId + " " + teamAwayId);
+                    Log.d(TAG, "error here! " + mTeamHomeId + " " + mTeamAwayId);
                     Log.e(TAG, e.getMessage());
                 }
             }

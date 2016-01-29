@@ -49,22 +49,22 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, Cursor cursor) {
         FixtureModel bookModel = new FixtureModel().fromCursor(cursor);
-        viewHolder.home_name.setText(bookModel.getHomeName());
-        viewHolder.away_name.setText(bookModel.getAwayHome());
-        viewHolder.date.setText(bookModel.getDate());
+        viewHolder.homeNameView.setText(bookModel.getHomeName());
+        viewHolder.awayNameView.setText(bookModel.getAwayHome());
+        viewHolder.dateView.setText(bookModel.getDate());
 
         if (bookModel.getScoreHome() != -1 && bookModel.getScoreAway() != -1) {
-            viewHolder.scoreHome.setText("" + bookModel.getScoreHome());
-            viewHolder.scoreAway.setText("" + bookModel.getScoreAway());
+            viewHolder.scoreHomeView.setText("" + bookModel.getScoreHome());
+            viewHolder.scoreAwayView.setText("" + bookModel.getScoreAway());
 
             if (Status.FINISHED.equals(bookModel.getMatchStatus())) {
-                viewHolder.mMatchStatus.setText(mContext.getString(R.string.match_detail_finished));
+                viewHolder.mMatchStatusView.setText(mContext.getString(R.string.match_detail_finished));
             } else {
-                viewHolder.mMatchStatus.setText(mContext.getString(R.string.match_detail_timed));
+                viewHolder.mMatchStatusView.setText(mContext.getString(R.string.match_detail_timed));
             }
         } else {
-            viewHolder.scoreHome.setText("0");
-            viewHolder.scoreAway.setText("0");
+            viewHolder.scoreHomeView.setText("0");
+            viewHolder.scoreAwayView.setText("0");
         }
 
         viewHolder.mMatchdayTextView.setText(Utilities.getMatchDay(mContext, bookModel.getMatchday(), bookModel.getSessionId()));
@@ -73,8 +73,8 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
         viewHolder.mShareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(createShareIntent(viewHolder.home_name.getText() + " " + viewHolder.scoreHome.getText() + " - " +
-                                        viewHolder.scoreAway.getText() + " " + viewHolder.away_name.getText() + " "
+                mContext.startActivity(createShareIntent(viewHolder.homeNameView.getText() + " " + viewHolder.scoreHomeView.getText() + " - " +
+                                        viewHolder.scoreAwayView.getText() + " " + viewHolder.awayNameView.getText() + " "
                         )
                 );
             }
@@ -86,16 +86,16 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
                 .load(Utilities.getTeamCrestURL(bookModel.getCrestHomeUrl()))
                 .error(R.drawable.ic_launcher)
                 .placeholder(R.drawable.ic_launcher)
-                .into(viewHolder.home_crest);
+                .into(viewHolder.homeCrestView);
 
         Glide.with(mContext)
                 .load(Utilities.getTeamCrestURL(bookModel.getCrestAwayUrl()))
                 .error(R.drawable.ic_launcher)
                 .placeholder(R.drawable.ic_launcher)
-                .into(viewHolder.away_crest);
+                .into(viewHolder.awayCrestView);
 
-        viewHolder.home_crest.setContentDescription(bookModel.getHomeName());
-        viewHolder.away_crest.setContentDescription(bookModel.getAwayHome());
+        viewHolder.homeCrestView.setContentDescription(bookModel.getHomeName());
+        viewHolder.awayCrestView.setContentDescription(bookModel.getAwayHome());
 
     }
 
@@ -110,25 +110,25 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.home_name)
-        TextView home_name;
+        TextView homeNameView;
         @Bind(R.id.away_name)
-        TextView away_name;
+        TextView awayNameView;
         @Bind(R.id.score_home_textview)
-        TextView scoreHome;
+        TextView scoreHomeView;
         @Bind(R.id.score_away_textview)
-        TextView scoreAway;
+        TextView scoreAwayView;
         @Bind(R.id.data_textview)
-        TextView date;
+        TextView dateView;
         @Bind(R.id.match_status)
-        TextView mMatchStatus;
+        TextView mMatchStatusView;
         @Bind(R.id.detail_textview_league)
         TextView mLeagueTextView;
         @Bind(R.id.detail_textview_matchday)
         TextView mMatchdayTextView;
         @Bind(R.id.home_crest)
-        ImageView home_crest;
+        ImageView homeCrestView;
         @Bind(R.id.away_crest)
-        ImageView away_crest;
+        ImageView awayCrestView;
         @Bind(R.id.detail_button_share)
         ImageView mShareImageView;
 
