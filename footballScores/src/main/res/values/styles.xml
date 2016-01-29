@@ -5,16 +5,12 @@
 
     <style name="AppTheme" parent="AppBaseTheme">
 
-        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
 
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <!-- Toolbar Theme / Apply white arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
 
         <!-- Material Theme -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -26,14 +22,10 @@
 
     </style>
 
+
     <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
-    </style>
-
-    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <!-- White arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
     </style>
 
 </resources>

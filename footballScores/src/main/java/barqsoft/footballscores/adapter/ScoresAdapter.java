@@ -16,7 +16,7 @@ import barqsoft.footballscores.R;
 import barqsoft.footballscores.api.CursorRecyclerViewAdapter;
 import barqsoft.footballscores.api.FixtureModel;
 import barqsoft.footballscores.util.Status;
-import barqsoft.footballscores.util.Utilies;
+import barqsoft.footballscores.util.Utilities;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -67,8 +67,8 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
             viewHolder.scoreAway.setText("0");
         }
 
-        viewHolder.mMatchdayTextView.setText(Utilies.getMatchDay(mContext, bookModel.getMatchday(), bookModel.getSessionId()));
-        viewHolder.mLeagueTextView.setText(Utilies.getLeague(mContext, bookModel.getSessionId()));
+        viewHolder.mMatchdayTextView.setText(Utilities.getMatchDay(mContext, bookModel.getMatchday(), bookModel.getSessionId()));
+        viewHolder.mLeagueTextView.setText(Utilities.getLeague(mContext, bookModel.getSessionId()));
 
         viewHolder.mShareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +83,13 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
         viewHolder.mShareImageView.setContentDescription(mContext.getString(R.string.match_detail_share_match));
 
         Glide.with(mContext)
-                .load(Utilies.getTeamCrestURL(bookModel.getCrestHomeUrl()))
+                .load(Utilities.getTeamCrestURL(bookModel.getCrestHomeUrl()))
                 .error(R.drawable.ic_launcher)
                 .placeholder(R.drawable.ic_launcher)
                 .into(viewHolder.home_crest);
 
         Glide.with(mContext)
-                .load(Utilies.getTeamCrestURL(bookModel.getCrestAwayUrl()))
+                .load(Utilities.getTeamCrestURL(bookModel.getCrestAwayUrl()))
                 .error(R.drawable.ic_launcher)
                 .placeholder(R.drawable.ic_launcher)
                 .into(viewHolder.away_crest);
@@ -99,11 +99,11 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
 
     }
 
-    public Intent createShareIntent(String ShareText) {
+    public Intent createShareIntent(String value) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, ShareText + FOOTBALL_SCORES_HASHTAG);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, value + FOOTBALL_SCORES_HASHTAG);
         return shareIntent;
     }
 

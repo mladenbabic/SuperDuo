@@ -162,7 +162,7 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
         ContentValues[] insert_data = new ContentValues[values.size()];
         values.toArray(insert_data);
         inserted_data = getContext().getContentResolver().bulkInsert(DatabaseContract.BASE_CONTENT_URI, insert_data);
-        Log.v(TAG, "Successfully inserted : " + String.valueOf(inserted_data));
+        Log.d(TAG, "Successfully inserted : " + String.valueOf(inserted_data));
     }
 
     private String getTeamName(Team team) {

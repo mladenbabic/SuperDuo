@@ -21,7 +21,7 @@
         app:viewpager_imageHeaderDarkLayerAlpha="0.2"
         app:viewpager_logo="@layout/header_logo"
         app:viewpager_logoMarginTop="70dp"
-        app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
+        app:viewpager_pagerTitleStrip="@layout/my_tabs"
         app:viewpager_parallaxHeaderFactor="1.5"
         app:viewpager_transparentToolbar="false" />
 

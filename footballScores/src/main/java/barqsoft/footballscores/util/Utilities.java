@@ -11,7 +11,7 @@ import barqsoft.footballscores.R;
 /**
  * Created by yehya khaled on 3/3/2015.
  */
-public class Utilies {
+public class Utilities {
 
     public static final int BUNDESLIGA = 394; // "1. Bundesliga 2015/16"
     public static final int BUNDESLIGA2 = 395; // "2. Bundesliga 2015/16"
@@ -27,7 +27,6 @@ public class Utilies {
     public static final int CHAMPIONS_LEAGUE = 405; // "Champions League 2015/16"
     public static final int EURO_CHAMPIONSHIPS_FRANCE = 424; // "European Championships France 2016"
     public static final int LEAGUE_ONE = 425; // "League One 2015/16"
-
 
     public static String getLeague(Context mContext, int league_num) {
         switch (league_num) {

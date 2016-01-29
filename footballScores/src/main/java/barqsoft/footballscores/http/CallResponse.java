@@ -23,7 +23,7 @@ public class CallResponse<T> {
             }
             return response.body();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error on execute: ", e);
         }
         return null;
     }

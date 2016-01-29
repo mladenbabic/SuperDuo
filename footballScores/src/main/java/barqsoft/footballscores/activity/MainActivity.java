@@ -1,6 +1,7 @@
 package barqsoft.footballscores.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,7 +19,7 @@ import barqsoft.footballscores.R;
 import barqsoft.footballscores.fragment.MainScreenFragment;
 import barqsoft.footballscores.sync.FootballScoresSyncAdapter;
 import barqsoft.footballscores.util.Constants;
-import barqsoft.footballscores.util.Utilies;
+import barqsoft.footballscores.util.Utilities;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = mViewPager.getToolbar();
 
         if (toolbar != null) {
+            toolbar.setTitleTextColor(Color.WHITE);
             setSupportActionBar(toolbar);
             final ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public CharSequence getPageTitle(int position) {
-                return Utilies.getDayName(MainActivity.this, System.currentTimeMillis() + ((position - 2) * 86400000));
+                return Utilities.getDayName(MainActivity.this, System.currentTimeMillis() + ((position - 2) * 86400000));
             }
         });
 

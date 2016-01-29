@@ -5,15 +5,9 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.support.annotation.DimenRes;
-import android.view.View;
 
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * Created by Mladen on 8/14/2015.
@@ -67,38 +61,6 @@ public class DeviceUtil {
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
-    }
-
-    public static boolean isRtl(Context context) {
-        boolean rtl = false;
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-
-            Configuration config = context.getResources().getConfiguration();
-            if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                rtl = true;
-            }
-        } else {
-
-            Set<String> lang = new HashSet<String>();
-            lang.add("ar");
-            lang.add("dv");
-            lang.add("fa");
-            lang.add("ha");
-            lang.add("he");
-            lang.add("iw");
-            lang.add("ji");
-            lang.add("ps");
-            lang.add("ur");
-            lang.add("yi");
-            Set<String> RTL = Collections.unmodifiableSet(lang);
-
-            Locale locale = Locale.getDefault();
-
-            rtl = RTL.contains(locale.getLanguage());
-        }
-
-        return rtl;
     }
 
 }
