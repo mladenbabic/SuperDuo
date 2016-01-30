@@ -26,10 +26,10 @@ public class MatchScoresWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_match_scores);
             Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            views.setOnClickPendingIntent(R.id.widget, pendingIntent);
-            views.setRemoteAdapter(R.id.match_scores_list, new Intent(context, WidgetService.class));
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setPendingIntentTemplate(R.id.match_scores_list, pendingIntent);
             views.setEmptyView(R.id.match_scores_list, R.id.scores_empty);
+            views.setRemoteAdapter(R.id.match_scores_list, new Intent(context, WidgetService.class));
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }

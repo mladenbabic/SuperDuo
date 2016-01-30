@@ -1,6 +1,7 @@
 package barqsoft.footballscores.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -82,6 +83,9 @@ public class MatchScoresRemoteViewsFactory implements RemoteViewsService.RemoteV
 
         final RemoteViews remoteView = new RemoteViews(
                 mContext.getPackageName(), R.layout.widget_item);
+
+        Intent intent = new Intent();
+        remoteView.setOnClickFillInIntent(R.id.widget_item_container, intent);
 
         remoteView.setTextViewText(R.id.widget_home_name, bookModel.getHomeName());
         remoteView.setTextViewText(R.id.widget_away_name, bookModel.getAwayHome());

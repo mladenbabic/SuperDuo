@@ -41,5 +41,8 @@
     <dimen name="spacing_tiny">4dp</dimen>
     <dimen name="card_view_height">150dp</dimen>
     <dimen name="card_view_height_small">100dp</dimen>
+    <dimen name="header_additional_height">20dp</dimen>
+    <dimen name="header_height">200dp</dimen>
+
 
 </resources>
