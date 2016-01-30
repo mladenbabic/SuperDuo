@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_view_height_small"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/widget_home_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_normal"
+                app:layout_gravity="right"
+                tools:text="@string/match_detail_test_text" />
+
+            <TextView
+                android:id="@+id/widget_away_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_normal"
+                app:layout_gravity="left"
+                tools:text="@string/match_detail_test_text" />
+
+            <TextView
+                android:id="@+id/widget_score_home_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_huge"
+                app:layout_gravity="center"
+                tools:text="2"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/widget_match_status"
+                android:layout_toStartOf="@+id/widget_match_status"
+                android:layout_marginTop="@dimen/spacing_small" />
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/widget_score_home_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_smaller"
+                android:text="-"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_huge" />
+
+
+            <TextView
+                android:id="@+id/widget_score_away_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_huge"
+                app:layout_gravity="center"
+                tools:text="4"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/widget_match_status"
+                android:layout_toEndOf="@+id/widget_match_status"
+                android:layout_marginTop="@dimen/spacing_small" />
+
+            <ImageView
+                android:id="@+id/widget_home_crest"
+                android:layout_width="@dimen/image_size_width_small"
+                android:layout_height="@dimen/image_size_height_small"
+                android:layout_above="@+id/widget_data_textview"
+                android:layout_alignLeft="@+id/widget_home_name"
+                android:layout_alignStart="@+id/widget_home_name"
+                android:layout_gravity="top|left" />
+
+            <ImageView
+                android:id="@+id/widget_away_crest"
+                android:layout_width="@dimen/image_size_width_small"
+                android:layout_height="@dimen/image_size_height_small"
+                android:layout_above="@+id/widget_data_textview"
+                android:layout_alignEnd="@+id/widget_away_name"
+                android:layout_alignRight="@+id/widget_away_name" />
+
+            <TextView
+                android:id="@+id/widget_match_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/widget_data_textview"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_small"
+                tools:text="@string/match_detail_test_text" />
+
+            <TextView
+                android:id="@+id/widget_data_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/spacing_smaller"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_small"
+                tools:text="@string/match_detail_test_text" />
+
+            <TextView
+                android:id="@+id/widget_league"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/widget_home_crest"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/widget_home_crest"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:paddingBottom="@dimen/spacing_smaller"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_small"
+                tools:text="@string/match_detail_league" />
+
+            <TextView
+                android:id="@+id/widget_matchday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/widget_away_crest"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/widget_away_crest"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:paddingBottom="@dimen/spacing_smaller"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/font_small"
+                tools:text="@string/match_detail_match_day" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

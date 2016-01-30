@@ -10,6 +10,24 @@ import android.provider.BaseColumns;
 public class DatabaseContract
 {
     public static final String SCORES_TABLE = "scores_table";
+
+    public static String [] PROJECTION = {
+            DatabaseContract.scores_table.MATCH_ID,
+            DatabaseContract.scores_table.LEAGUE_COL,
+            DatabaseContract.scores_table.DATE_COL,
+            DatabaseContract.scores_table.TIME_COL,
+            DatabaseContract.scores_table.HOME_COL,
+            DatabaseContract.scores_table.AWAY_COL,
+            DatabaseContract.scores_table.HOME_URL_COL,
+            DatabaseContract.scores_table.AWAY_URL_COL,
+            DatabaseContract.scores_table.HOME_GOALS_COL,
+            DatabaseContract.scores_table.AWAY_GOALS_COL,
+            DatabaseContract.scores_table.MATCH_DAY,
+            DatabaseContract.scores_table.MATCH_STATUS,
+
+    };
+
+
     public static final class scores_table implements BaseColumns
     {
         //Table data

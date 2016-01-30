@@ -6,5 +6,6 @@ package barqsoft.footballscores.util;
 public class Constants {
 
     public static final String POSITION_KEY = "position_key";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
 
 }

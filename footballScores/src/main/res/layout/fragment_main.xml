@@ -10,13 +10,13 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/scores_list"
+            android:id="@+id/match_scores_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <include layout="@layout/material_view_pager_placeholder" />
-    <include layout="@layout/inc_no_matches" />
+    <include layout="@layout/inc_no_match_scores" />
 
 </LinearLayout>

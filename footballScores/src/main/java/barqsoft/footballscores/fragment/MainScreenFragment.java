@@ -43,7 +43,7 @@ public class MainScreenFragment extends Fragment
 
 
     private static final String TAG = "MainScreenFragment";
-    @Bind(R.id.scores_list)
+    @Bind(R.id.match_scores_list)
     RecyclerView mScoreList;
 
     @Bind(R.id.no_matches_container)
@@ -70,7 +70,7 @@ public class MainScreenFragment extends Fragment
         if (getArguments() != null && getArguments().containsKey(Constants.POSITION_KEY)) {
             mPosition = getArguments().getInt(Constants.POSITION_KEY);
             Date fragmentDate = new Date(System.currentTimeMillis() + ((mPosition - 2) * 86400000));
-            SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat mformat = new SimpleDateFormat(Constants.DATE_FORMAT);
             mFormattedDate = mformat.format(fragmentDate);
         }
 

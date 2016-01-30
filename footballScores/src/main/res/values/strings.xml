@@ -12,7 +12,7 @@
     <string name="match_detail_tomorrow" translatable="true">Tomorrow</string>
     <string name="match_detail_finished"  translatable="true">Finished</string>
     <string name="match_detail_timed" translatable="true">Timed</string>
-    <string name="match_detail_no_matches" translatable="true">No matches</string>
+    <string name="match_detail_no_match_scores" translatable="true">No match scores</string>
     <string name="match_detail_league" translatable="true">League</string>
     <string name="match_detail_match_day" translatable="true">Matchday</string>
     <string name="match_detail_share_match" translatable="true">Share a match</string>
@@ -54,5 +54,6 @@
         During the off season, fake data will be added to the app.
     </string>
     <string name="not_known_league">Not known league</string>
+    <string name="title_widget_scores">Widget match scores</string>
 
 </resources>

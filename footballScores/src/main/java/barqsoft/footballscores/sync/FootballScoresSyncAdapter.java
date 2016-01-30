@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -41,6 +42,7 @@ import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
 public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
+    public static final String BROADCAST_DATA_UPDATED = "barqsoft.footballscores.sync.BROADCAST_DATA_UPDATED";
     public final String TAG = FootballScoresSyncAdapter.class.getSimpleName();
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     public static final int SYNC_INTERVAL = 60 * 1; //TEST
@@ -69,6 +71,9 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                 EventBus.getDefault().post(new OnRefreshEndEvent());
             }
         });
+
+        //updating widgets
+        getContext().sendBroadcast(new Intent(FootballScoresSyncAdapter.BROADCAST_DATA_UPDATED).setPackage(getContext().getPackageName()));
     }
 
     private void retrieveFixtures(String timeFrame) {
@@ -179,7 +184,7 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
 
 
     private boolean checkSeasonRange(String mSeasonId) {
-        return Integer.valueOf(mSeasonId) >= SEASON_MIN || Integer.valueOf(mSeasonId) <= SEASON_MAX;
+        return Integer.valueOf(mSeasonId) >= SEASON_MIN && Integer.valueOf(mSeasonId) <= SEASON_MAX;
     }
 
     private void retrieveTeams() {
