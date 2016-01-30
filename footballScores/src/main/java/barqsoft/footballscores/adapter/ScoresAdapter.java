@@ -42,7 +42,7 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.scores_list_item, parent, false);
+                .inflate(R.layout.match_scores_list_item, parent, false);
         return new ViewHolder(itemView);
     }
 
