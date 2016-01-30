@@ -2,6 +2,8 @@ package barqsoft.footballscores.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -51,6 +53,9 @@ public class MainScreenFragment extends Fragment
 
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @Bind(R.id.match_scores_container)
+    CoordinatorLayout mCoordinatorLayout;
 
     public ScoresAdapter mScoreAdapter;
     private RecyclerViewMaterialAdapter mAdapter;
@@ -151,8 +156,13 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onRefresh() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        refreshMatches();
+        if(DeviceUtil.isOnline(getContext())){
+            mSwipeRefreshLayout.setRefreshing(true);
+            refreshMatches();
+        } else {
+            mSwipeRefreshLayout.setRefreshing(false);
+            Snackbar.make(mCoordinatorLayout, R.string.match_detail_no_internet, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     public void onEvent(OnRefreshEndEvent event){

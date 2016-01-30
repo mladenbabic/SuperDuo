@@ -55,5 +55,6 @@
     </string>
     <string name="not_known_league">Not known league</string>
     <string name="title_widget_scores">Widget match scores</string>
+    <string name="match_detail_no_internet">No internet connection</string>
 
 </resources>
