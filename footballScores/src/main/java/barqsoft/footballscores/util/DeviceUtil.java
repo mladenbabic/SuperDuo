@@ -11,6 +11,7 @@ import java.util.Calendar;
 
 /**
  * Created by Mladen on 8/14/2015.
+ * Utility class
  */
 public class DeviceUtil {
 

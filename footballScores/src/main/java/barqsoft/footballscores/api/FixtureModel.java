@@ -4,6 +4,9 @@ import android.database.Cursor;
 
 import barqsoft.footballscores.db.DatabaseContract;
 
+/**
+ * The Pojo class which holds a match data retrieved from Cursor
+ */
 public class FixtureModel {
 
     private String homeName;

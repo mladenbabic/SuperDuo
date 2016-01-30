@@ -5,7 +5,9 @@ import android.app.Application;
 import com.facebook.stetho.Stetho;
 
 /**
- * Created by Mladen Babic <email>info@mladenbabic.com</email> on 1/29/2016.
+ * Created by Mladen Babic
+ * Initialize Stetho debug functionality
+ *
  */
 public class MyApplication extends Application {
     @Override

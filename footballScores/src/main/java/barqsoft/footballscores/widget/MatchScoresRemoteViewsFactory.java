@@ -152,6 +152,7 @@ public class MatchScoresRemoteViewsFactory implements RemoteViewsService.RemoteV
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            // Set content description
             remoteView.setContentDescription(R.id.widget_home_crest,bookModel.getHomeName());
             remoteView.setContentDescription(R.id.widget_away_crest,bookModel.getAwayHome());
         }

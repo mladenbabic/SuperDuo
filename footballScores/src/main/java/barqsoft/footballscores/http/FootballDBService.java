@@ -16,12 +16,28 @@ import retrofit.http.Query;
  */
 public interface FootballDBService {
 
+
+    /**
+     * Get all seasons
+     * @param API
+     * @return
+     */
     @GET("/soccerseasons")
     Call<List<Season>> getSoccerSeasons(@Header("X-Auth-Token") String API);
 
+    /**
+     * Get all fixtures based on time range
+     * @param API
+     * @return list of call with FixturesResult
+     */
     @GET("/fixtures")
     Call<FixturesResult> getFixtures(@Header("X-Auth-Token") String API, @Query("timeFrame") String timeFrame);
 
+    /**
+     * Get all teams based on soccer season
+     * @param API
+     * @return
+     */
     @GET("/soccerseasons/{seasonId}/teams")
     Call<TeamResult> getTeams(@Header("X-Auth-Token") String API, @Path("seasonId") String seasonId);
 

@@ -3,7 +3,7 @@ package barqsoft.footballscores.event;
 import android.util.Log;
 
 /**
- * Created by Mladen Babic <email>info@mladenbabic.com</email> on 1/28/2016.
+ * Created by Mladen Babic
  */
 public class OnRefreshEndEvent {
 

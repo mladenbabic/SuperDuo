@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.db.DatabaseContract;
@@ -41,11 +42,17 @@ import barqsoft.footballscores.model.TeamResult;
 import de.greenrobot.event.EventBus;
 import retrofit.Call;
 
+
+/**
+ * Created Mladen Babic
+ * The class responsible for schedule and repeat functionality for retrieving match soccer data from http://api.football-data.org
+ * It runs <code>onPerformSync</code> every 2 hours
+ *
+ */
 public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String BROADCAST_DATA_UPDATED = "barqsoft.footballscores.sync.BROADCAST_DATA_UPDATED";
     public final String TAG = FootballScoresSyncAdapter.class.getSimpleName();
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-    public static final int SYNC_INTERVAL = 60 * 1; //TEST
+    public static final int SYNC_INTERVAL = (int)TimeUnit.HOURS.toSeconds(2);
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
     private String apiKey;
     private Map<String, Team> mTeamMap = new HashMap<>();
@@ -60,7 +67,6 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(TAG, "Starting sync");
-        mTeamMap.clear();
         retrieveTeams();
         retrieveFixtures("n2");
         retrieveFixtures("p2");
@@ -188,6 +194,7 @@ public class FootballScoresSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void retrieveTeams() {
+        mTeamMap.clear();
         Call<List<Season>> seasonResultCall = HttpUtil.getService().getSoccerSeasons(apiKey);
         List<Season> seasonResult = new CallResponse<List<Season>>().execute(seasonResultCall);
 

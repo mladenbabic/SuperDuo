@@ -9,6 +9,8 @@ import retrofit.Response;
 
 /**
  * Created by Mladen Babic <email>info@mladenbabic.com</email> on 1/27/2016.
+ * Wrapper for Retrofit response. It executes Call and handle errors
+ * 
  */
 public class CallResponse<T> {
 

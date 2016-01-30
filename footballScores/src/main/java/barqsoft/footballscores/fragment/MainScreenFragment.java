@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
- * A placeholder fragment containing a simple view.
+ * A placeholder fragment containing a match data for particular day
  */
 public class MainScreenFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>,

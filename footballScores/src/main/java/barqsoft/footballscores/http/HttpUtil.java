@@ -7,7 +7,9 @@ import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 /**
- * Created by Mladen Babic <email>info@mladenbabic.com</email> on 11/16/2015.
+ * Created by Mladen Babic <email>info@mladenbabic.com</email>
+ * Util class for init Retrofit and Retrofit service
+ *
  */
 public class HttpUtil {
 

@@ -74,7 +74,7 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
             @Override
             public void onClick(View v) {
                 mContext.startActivity(createShareIntent(viewHolder.homeNameView.getText() + " " + viewHolder.scoreHomeView.getText() + " - " +
-                                        viewHolder.scoreAwayView.getText() + " " + viewHolder.awayNameView.getText() + " "
+                                        viewHolder.scoreAwayView.getText() + " " + viewHolder.awayNameView.getText()
                         )
                 );
             }
@@ -99,6 +99,11 @@ public class ScoresAdapter extends CursorRecyclerViewAdapter<ScoresAdapter.ViewH
 
     }
 
+    /**
+     * Create intent for match data share
+     * @param value Match data
+     * @return Intent for share
+     */
     public Intent createShareIntent(String value) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

@@ -23,6 +23,10 @@ import barqsoft.footballscores.util.Utilities;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * The main activity responsible for showing tabs with match scores for 5 days.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     public static int current_fragment = 2;
@@ -34,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     MaterialViewPager mViewPager;
 
 
+    /**
+     * Initialize views in main acitivity for all 5 fragments. Fragment represents each of 5 days in soccer seasons.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
