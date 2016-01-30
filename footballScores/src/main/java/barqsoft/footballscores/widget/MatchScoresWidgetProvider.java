@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import barqsoft.footballscores.R;
@@ -17,6 +18,8 @@ import barqsoft.footballscores.sync.FootballScoresSyncAdapter;
  * Created by Mladen Babic <email>info@mladenbabic.com</email> on 1/29/2016.
  */
 public class MatchScoresWidgetProvider extends AppWidgetProvider {
+
+    private static final String TAG = "MatchScoresWidgetP";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -36,6 +39,7 @@ public class MatchScoresWidgetProvider extends AppWidgetProvider {
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         super.onReceive(context, intent);
         if (FootballScoresSyncAdapter.BROADCAST_DATA_UPDATED.equals(intent.getAction())) {
+            Log.d(TAG, "onReceive: got BROADCAST_DATA_UPDATED event");
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getClass()));
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.match_scores_list);
