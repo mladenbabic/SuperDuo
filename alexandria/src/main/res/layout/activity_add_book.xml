@@ -64,7 +64,7 @@
                         android:paddingBottom="@dimen/spacing_tiny"
                         android:visibility="gone"
                         android:textSize="@dimen/small_fontsize"
-                        tools:text="Reto Meier" />
+                        tools:text="@string/test_text" />
 
                     <TextView
                         android:id="@+id/categories"
@@ -73,7 +73,7 @@
                         android:paddingBottom="@dimen/spacing_tiny"
                         android:visibility="gone"
                         android:textSize="@dimen/font_small"
-                        tools:text="Computers" />
+                        tools:text="@string/test_text" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
