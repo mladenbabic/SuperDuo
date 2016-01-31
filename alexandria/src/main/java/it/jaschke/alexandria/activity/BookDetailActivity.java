@@ -1,6 +1,7 @@
 package it.jaschke.alexandria.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 
 import butterknife.ButterKnife;
@@ -11,6 +12,7 @@ import it.jaschke.alexandria.fragment.BookDetailFragment;
 public class BookDetailActivity extends BaseActivity {
 
     private static final String TAG = "BookDetailActivity";
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class BookDetailActivity extends BaseActivity {
                     .commit();
         }
     }
+
 
     @Override
     protected void onDestroy() {

@@ -129,6 +129,8 @@ public class AddBookActivity extends BaseActivity
             searchView.setQuery("", false);
         }
         getContentResolver().notifyChange(AlexandriaContract.BookEntry.CONTENT_URI, null);
+        Snackbar.make(mBookCoordinatorLayout, R.string.book_added_in_library, Snackbar.LENGTH_SHORT).show();
+
     }
 
 
@@ -140,6 +142,7 @@ public class AddBookActivity extends BaseActivity
         startService(bookIntent);
         clearFields();
         animateCloseCard();
+        Snackbar.make(mBookCoordinatorLayout, R.string.book_deleted, Snackbar.LENGTH_SHORT).show();
     }
 
     private void animateCloseCard() {
