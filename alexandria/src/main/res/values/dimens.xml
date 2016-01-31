@@ -17,4 +17,21 @@
     <dimen name="book_card_preview_height">200dp</dimen>
     <dimen name="card_book_width">500dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="font_huge">36sp</dimen>
+    <dimen name="font_larger">22sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+
+    <dimen name="spacing_huge">40dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_small">10dp</dimen>
+    <dimen name="spacing_smaller">8dp</dimen>
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_height">150dp</dimen>
+    <dimen name="card_view_min_height">100dp</dimen>
+
 </resources>

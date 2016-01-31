@@ -136,7 +136,6 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
             return;
         }
 
-
         bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
         mBookTitle.setText(bookTitle);
 
@@ -164,6 +163,8 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
                 .error(R.drawable.ic_launcher)
                 .crossFade()
                 .into(fullBookCover);
+
+        fullBookCover.setContentDescription(bookTitle);
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
         mCategories.setText(categories);

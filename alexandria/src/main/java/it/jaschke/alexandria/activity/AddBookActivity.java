@@ -244,6 +244,7 @@ public class AddBookActivity extends BaseActivity
 
     private void showDetailView(boolean showView) {
         mBookDetailContainer.setVisibility(showView ? View.VISIBLE : View.INVISIBLE);
+
     }
 
     @Override

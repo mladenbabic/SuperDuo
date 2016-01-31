@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/spacing_tiny"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -21,7 +21,7 @@
                 android:id="@+id/fullBookCover"
                 style="@style/bookCover"
                 android:layout_gravity="top"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/spacing_tiny"
                 android:contentDescription="@string/book_cover"
                 android:src="@drawable/ic_launcher"/>
 
@@ -29,14 +29,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="8dp"
+                android:paddingLeft="@dimen/spacing_tiny"
+                android:paddingStart="@dimen/spacing_tiny"
                 android:weightSum="1">
 
                 <TextView
                     android:id="@+id/fullBookTitle"
                     style="@style/bookTitle"
                     android:maxLines="2"
-                    tools:text="Professional Android 4 Application Development" />
+                    tools:text="@string/test_text" />
 
                 <TextView
                     android:id="@+id/fullBookSubTitle"
@@ -49,15 +50,15 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/fullBookDesc"
                     android:gravity="left|center"
-                    android:paddingLeft="4dp"
-                    android:layout_marginTop="10dp"
+                    android:paddingLeft="@dimen/spacing_tiny"
+                    android:paddingStart="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/categories"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Computers"
                         android:gravity="left|bottom" />
 
                     <TextView
@@ -65,7 +66,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left|bottom"
-                        tools:text="Reto Meier"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -76,9 +76,9 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/spacing_tiny"
         app:cardUseCompatPadding="true"
-        android:minHeight="100dp"
+        android:minHeight="@dimen/card_view_min_height"
         android:nestedScrollingEnabled="false"
         android:measureAllChildren="true">
 
@@ -92,16 +92,16 @@
                 style="?attr/textAppearanceSearchResultTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Description" />
+                android:layout_margin="@dimen/spacing_small" />
 
             <TextView
                 android:id="@+id/fullBookDesc"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fullBookCover"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_margin="@dimen/spacing_small"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
                 tools:text="@string/large_text"
                 android:ellipsize="end" />
 

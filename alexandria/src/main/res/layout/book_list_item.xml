@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/spacing_tiny"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginBottom="0dp"
@@ -33,11 +33,11 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:background="@color/colorTextWhite"
-                android:padding="8dp"
+                android:padding="@dimen/spacing_tiny"
                 android:textColor="@color/colorPrimaryText"
                 android:maxLines="2"
-                tools:text="Title book"
-                android:textSize="14sp" />
+                tools:text="@string/test_text"
+                android:textSize="@dimen/font_small" />
 
         </LinearLayout>
 
