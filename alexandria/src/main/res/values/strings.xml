@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Alexandria</string>
-    <!-- Menu Items -->
     <string name="books">List of Books</string>
     <string name="scan">Scan/Add a Book</string>
     <string name="about">About this App</string>
