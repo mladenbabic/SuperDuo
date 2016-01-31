@@ -47,7 +47,7 @@ public class BookListAdapter extends CursorRecyclerViewAdapter<BookListAdapter.V
                 .crossFade()
                 .into(viewHolder.bookCover);
 
-        viewHolder.bookCover.setContentDescription(bookModel.getTitle());
+        viewHolder.bookCover.setContentDescription(viewHolder.bookTitle.getContext().getString(R.string.book_cover) + " " + bookModel.getTitle());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
