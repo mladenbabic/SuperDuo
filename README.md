@@ -8,11 +8,6 @@
 ## Instalation
    
    The project Football Scores retrieves the match soccer data from [Football Data](http://api.football-data.org/index). The app requires your API key from http://api.football-data.org to work properly. When you obtain API key, replace API_KEY with your API key in the strings.xml file.
-         
-          buildTypes.each {
-               it.buildConfigField 'String', 'THE_MOVIE_DB_API_KEY', '"YOUR_API_KEY"'
-          }
-
 
 ## Third-Party Libs
 
