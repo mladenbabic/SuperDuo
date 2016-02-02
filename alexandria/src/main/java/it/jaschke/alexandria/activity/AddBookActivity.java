@@ -80,8 +80,13 @@ public class AddBookActivity extends BaseActivity
     @BindString(R.string.input_hint)
     String mSearchTextHint;
 
+    @BindString(R.string.key_ean)
+    String mKeyEAN;
+
     private SearchView searchView = null;
     private String mTextSearch;
+    private String mSavedEan;
+
 
     private BroadcastReceiver messageReceiver;
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
@@ -98,6 +103,7 @@ public class AddBookActivity extends BaseActivity
 
         if (savedInstanceState != null) {
             mTextSearch = savedInstanceState.getString(mKeySearchText);
+            mSavedEan = savedInstanceState.getString(mKeyEAN);
             Log.d(TAG, "mTextSearch: " + mTextSearch);
         }
     }
@@ -106,6 +112,7 @@ public class AddBookActivity extends BaseActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(mKeySearchText, mTextSearch);
+        outState.putString(mKeyEAN, mSavedEan);
     }
 
     @Override
@@ -125,6 +132,7 @@ public class AddBookActivity extends BaseActivity
 
     @OnClick(R.id.save_button)
     public void onSaveBook(View view) {
+
         if (searchView != null) {
             searchView.setQuery("", false);
         }
@@ -137,7 +145,7 @@ public class AddBookActivity extends BaseActivity
     @OnClick(R.id.delete_button)
     public void onDeleteBook(View view) {
         Intent bookIntent = new Intent(this, BookService.class);
-        bookIntent.putExtra(BookService.EAN, mTextSearch);
+        bookIntent.putExtra(BookService.EAN, mSavedEan);
         bookIntent.setAction(BookService.DELETE_BOOK);
         startService(bookIntent);
         clearFields();
@@ -288,7 +296,7 @@ public class AddBookActivity extends BaseActivity
             case R.id.action_scan_book:
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-                integrator.setPrompt("Scan a barcode");
+                integrator.setPrompt(getString(R.string.scan_barcode));
                 integrator.setCameraId(0);  // Use a specific camera of the device
                 integrator.setBeepEnabled(false);
                 integrator.setBarcodeImageEnabled(true);
@@ -362,6 +370,10 @@ public class AddBookActivity extends BaseActivity
                 switch (code) {
                     case BookService.FOUND_BOOK_OK:
                     case BookService.ADD_BOOK_OK:
+                        if(intent.hasExtra(MainActivity.MESSAGE_ARTICLE_ID)){
+                            mSavedEan = intent.getStringExtra(MainActivity.MESSAGE_ARTICLE_ID);
+                            Log.d(TAG, "onReceive: got saved ean " + mSavedEan);
+                        }
                         restartLoader();
                         message = getString(R.string.book_found);
                         break;

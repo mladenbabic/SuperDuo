@@ -68,11 +68,11 @@ public class BookService extends IntentService {
      * parameters.
      */
     private void deleteBook(String ean) {
-        if (ean != null) {
+        if (!TextUtils.isEmpty(ean)) {
            Uri bookUri = AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean));
             if(bookUri != null){
                 getContentResolver().delete(bookUri, null, null);
-                sendEvent(DELETE_BOOK_OK);
+                sendEvent(DELETE_BOOK_OK, ean);
             }
         }
     }
@@ -97,14 +97,14 @@ public class BookService extends IntentService {
 
         if (bookEntry.getCount() > 0) {
             bookEntry.close();
-            sendEvent(FOUND_BOOK_OK);
+            sendEvent(FOUND_BOOK_OK, ean);
             return;
         }
 
         bookEntry.close();
 
         if(!DeviceUtil.isOnline(this)){
-            sendEvent(NO_CONNECTION);
+            sendEvent(NO_CONNECTION, null);
             return;
         }
 
@@ -179,7 +179,7 @@ public class BookService extends IntentService {
             if (bookJson.has(ITEMS)) {
                 bookArray = bookJson.getJSONArray(ITEMS);
             } else {
-                sendEvent(NO_BOOK);
+                sendEvent(NO_BOOK, "");
                 return;
             }
 
@@ -211,16 +211,17 @@ public class BookService extends IntentService {
                 writeBackCategories(ean, bookInfo.getJSONArray(CATEGORIES));
             }
 
-            sendEvent(FOUND_BOOK_OK);
+            sendEvent(FOUND_BOOK_OK, ean);
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
         }
     }
 
 
-    private void sendEvent(@ServiceResponse int responseCode) {
+    private void sendEvent(@ServiceResponse int responseCode, String articleId) {
         Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
         messageIntent.putExtra(MainActivity.MESSAGE_KEY, responseCode);
+        messageIntent.putExtra(MainActivity.MESSAGE_ARTICLE_ID, articleId);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
     }
 

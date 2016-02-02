@@ -19,6 +19,7 @@ public class MainActivity extends BaseActivity implements  Callback {
     private boolean mTwoPane = true;
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
+    public static final String MESSAGE_ARTICLE_ID = "MESSAGE_ARTICLE_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
